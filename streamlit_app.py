@@ -45,14 +45,14 @@ def retirement_simulation(
                 fund_balance[i:] = 0
                 cumulative_expense[i:] = cumulative_expense[i-1]
                 break
-    inheritance = df.iloc[-1]['Fund Balance']
     
     df = pd.DataFrame({
         'Age': age_range,
         'Fund Balance': fund_balance,
         'Cumulative Expense': cumulative_expense
     })
-
+    
+    inheritance = df.iloc[-1]['Fund Balance']
     # Create interactive plot with Plotly
     fig = go.Figure()
     fig.add_trace(go.Scatter(
