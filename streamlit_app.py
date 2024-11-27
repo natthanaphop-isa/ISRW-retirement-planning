@@ -91,10 +91,11 @@ def retirement_simulation(
         legend=dict(
             orientation='h',  # Horizontal legend
             yanchor='bottom',  # Anchor the legend to the bottom
-            y=-0.2,  # Position the legend just below the plot
+            y=-0.3,  # Move the legend further down (adjust as necessary)
             xanchor='center',  # Center the legend horizontally
             x=0.5  # Center the legend horizontally
-        )
+        ),
+        margin=dict(b=120)  # Increase bottom margin for more space
     )
 
     return fig, df
