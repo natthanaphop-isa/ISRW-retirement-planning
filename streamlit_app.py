@@ -87,7 +87,14 @@ def retirement_simulation(
         yaxis_title='Amount (฿)',
         yaxis_tickformat=',',
         hovermode='x unified',  # Show all values on the same x-axis when hovering
-        autosize=True  # Make the graph resize automatically
+        autosize=True,  # Make the graph resize automatically
+        legend=dict(
+            orientation='h',  # Horizontal legend
+            yanchor='bottom',  # Anchor the legend to the bottom
+            y=-0.2,  # Position the legend just below the plot
+            xanchor='center',  # Center the legend horizontally
+            x=0.5  # Center the legend horizontally
+        )
     )
 
     return fig, df
@@ -130,17 +137,31 @@ final_fund_balance = df.iloc[-1]['Fund Balance']
 if final_fund_balance > 0:
     status = "Successful ✅"
     recommendation = "Your retirement plan is well-funded through life expectancy."
+    box_color = "#D4EDDA"  # Green box color for success
+    text_color = "#155724"  # Dark green text for success
 else:
     status = "Unsuccessful ❌"
     recommendation = (
         "Consider increasing your annual contribution, extending your retirement age, "
         "or expecting higher returns to ensure your funds last through life expectancy."
     )
+    box_color = "#F8D7DA"  # Red box color for failure
+    text_color = "#721C24"  # Dark red text for failure
 
-# Display Results
+# Display the Plotly chart
 st.plotly_chart(fig, use_column_width=True)  # Set use_column_width=True for responsive resizing
 
+# Display Summary with colored box around the status and recommendation
 st.header("Summary of Your Parameters and Plan")
+
+# Apply HTML styling with the correct box color
+st.markdown(f"""
+    <div style="background-color:{box_color}; padding: 15px; border-radius: 5px;">
+        <h3 style="color:{text_color};">Retirement Plan Status: <strong>{status}</strong></h3>
+        <p style="color:{text_color};">{recommendation}</p>
+    </div>
+""", unsafe_allow_html=True)
+
 st.markdown(f"""
 - **Current Age:** {current_age}
 - **Retirement Age:** {retirement_age}
@@ -150,10 +171,4 @@ st.markdown(f"""
 - **Annual Expense in Retirement:** ฿{annual_expense:,.0f}
 - **Inflation Rate:** {inflation_rate * 100:.1f}%
 - **Annualized Return (Pre-Retirement):** {annualized_return_pre * 100:.1f}%
-- **Annualized Return (Final Years Pre-Retirement):** {annualized_return_final_years * 100:.1f}%
-- **Years of Final Return Rate Before Retirement:** {years_final_return}
-- **Annualized Return (Post-Retirement):** {annualized_return_post * 100:.1f}%
-""")
-
-st.subheader(f"Retirement Plan Status: **{status}**")
-st.write(recommendation)
+- **Annualized Return (Final Years Pre-Retirement):** {annualized_return_final_years
