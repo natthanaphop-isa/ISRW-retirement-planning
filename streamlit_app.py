@@ -105,7 +105,7 @@ st.title("Retirement Fund Simulation")
 st.image("assets/retirement_planning.jpg", use_column_width=True)
 
 # Sidebar Inputs
-st.sidebar.header("Input Parameters")
+st.sidebar.header("กรอกข้อมูล")
 current_age = st.sidebar.slider("อายุปัจจุบัน (ปี)", 20, 50, 27, 1)
 retirement_age = st.sidebar.slider("อายุเกษียณ (ปี)", 50, 75, 60, 1)
 life_expectancy = st.sidebar.slider("อายุขัย (ปี)", 70, 100, 85, 1)
@@ -136,15 +136,16 @@ fig, df = retirement_simulation(
 # Check if retirement plan is successful
 final_fund_balance = df.iloc[-1]['Fund Balance']
 if final_fund_balance > 0:
-    status = "Successful ✅"
-    recommendation = "Your retirement plan is well-funded through life expectancy."
+    status = "แผนเกษียณสำเร็จ ✅"
+    recommendation = f"เงินทุนเกษียณของคุณมากพอต่อค่าใช้จ่ายหลังเกษียณ รวมเงินเฟ้อ {inflation_rate*100} ต่อปีจนสิ้นอายุขัย"
     box_color = "#D4EDDA"  # Green box color for success
     text_color = "#155724"  # Dark green text for success
 else:
-    status = "Unsuccessful ❌"
+    status = "เงินทุนเกษียณไม่เพียงพอ ❌"
     recommendation = (
-        "Consider increasing your annual contribution, extending your retirement age, "
-        "or expecting higher returns to ensure your funds last through life expectancy."
+        f"เงินทุนเกษียณของคุณมากพอต่อค่าใช้จ่ายหลังเกษียณ รวมเงินเฟ้อ {inflation_rate*100} ต่อปีจนสิ้นอายุขัย"
+        "คุณอาจต้อง เพิ่มจำนวนเงินลงทุนต่อปี หรือ เพิ่มผลตอบแทนคาดหวังต่อปี"
+        "หรือ ยืดอายุเกษียณของคุณ เพื่อให้ทุนเกษียณเพียงพอต่อค่าใช้จ่ายหลังเกษียณของคุณ"
     )
     box_color = "#F8D7DA"  # Red box color for failure
     text_color = "#721C24"  # Dark red text for failure
