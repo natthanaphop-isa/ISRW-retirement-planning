@@ -105,6 +105,15 @@ def retirement_simulation(
 st.title("Retirement Planning by Isara Wealth")
 st.image("assets/retirement_planning.jpg", use_column_width=True)
 
+st.markdown(f"""
+จัดทำโดย นพ.ณัฐธนภพ อิศรเดช (หมอเฟ้น)
+-Researcher: Machine Learning, Clinical NLP, Clinical Epidemiology
+-เจ้าของบล็อก www.isarawealth.com
+-IP License No. 132355 ใบอนุญาตผู้วางแผนการลงทุน โดย กลต.
+-ที่ปรึกษาทางการเงิน บลน. Finnomena
+-ตัวแทนประกันชีวิตและ Unitlink AIA รหัส 692246
+""")
+
 # Sidebar Inputs
 st.sidebar.header("กรอกข้อมูล")
 current_age = st.sidebar.slider("อายุปัจจุบัน (ปี)", 20, 50, 27, 1)
