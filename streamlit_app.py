@@ -112,11 +112,13 @@ life_expectancy = st.sidebar.slider("อายุขัย (ปี)", 70, 100, 8
 starting_principal = st.sidebar.number_input("เงินทุนตั้งต้น (฿)", 0, 10000000, 1000000, 1000)
 annual_contribution = st.sidebar.number_input("เงินลงทุนเพิ่มต่อปี (฿)", 0, 1000000, 100000, 1000)
 annual_expense = st.sidebar.number_input("ค่าใช้จ่ายหลังเกษียณต่อปี (฿)", 0, 10000000, 500000, 1000)
-inflation_rate = st.sidebar.slider("เงินเฟ้อ (%)", 0.0, 0.1, 0.035, 0.005)
-annualized_return_pre = st.sidebar.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะสะสม (%)", 0.0, 0.15, 0.07, 0.005)
-annualized_return_final_years = st.sidebar.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะใกล้เกษียณ (%)", 0.0, 0.1, 0.05, 0.005)
+
+# Adjusted sliders to display percentages properly
+inflation_rate = st.sidebar.slider("เงินเฟ้อ (%)", 0.0, 10.0, 3.5, 0.1) / 100  # Divide by 100 for calculation
+annualized_return_pre = st.sidebar.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะสะสม (%)", 0.0, 15.0, 7.0, 0.1) / 100  # Divide by 100 for calculation
+annualized_return_final_years = st.sidebar.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะใกล้เกษียณ (%)", 0.0, 10.0, 5.0, 0.1) / 100  # Divide by 100 for calculation
 years_final_return = st.sidebar.slider("เตรียมพร้อมก่อนเกษียณกี่ปี: ระยะใกล้เกษียณ (ปี)", 1, 20, 10, 1)
-annualized_return_post = st.sidebar.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะหลังเกษียณ (%)", 0.0, 0.1, 0.035, 0.005)
+annualized_return_post = st.sidebar.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะหลังเกษียณ (%)", 0.0, 10.0, 3.5, 0.1) / 100  # Divide by 100 for calculation
 
 # Run Simulation
 fig, df = retirement_simulation(
@@ -137,13 +139,13 @@ fig, df = retirement_simulation(
 final_fund_balance = df.iloc[-1]['Fund Balance']
 if final_fund_balance > 0:
     status = "แผนเกษียณสำเร็จ ✅"
-    recommendation = f"เงินทุนเกษียณของคุณมากพอต่อค่าใช้จ่ายหลังเกษียณ รวมเงินเฟ้อ {inflation_rate*100} ต่อปีจนสิ้นอายุขัย"
+    recommendation = f"เงินทุนเกษียณของคุณมากพอต่อค่าใช้จ่ายหลังเกษียณ รวมเงินเฟ้อ {inflation_rate*100:1.f}% ต่อปีจนสิ้นอายุขัย"
     box_color = "#D4EDDA"  # Green box color for success
     text_color = "#155724"  # Dark green text for success
 else:
     status = "เงินทุนเกษียณไม่เพียงพอ ❌"
     recommendation = (
-        f"เงินทุนเกษียณของคุณมากพอต่อค่าใช้จ่ายหลังเกษียณ รวมเงินเฟ้อ {inflation_rate*100} ต่อปีจนสิ้นอายุขัย"
+        f"เงินทุนเกษียณของคุณไม่พอต่อค่าใช้จ่ายหลังเกษียณ รวมเงินเฟ้อ {inflation_rate*100}% ต่อปีจนสิ้นอายุขัย"
         "คุณอาจต้อง เพิ่มจำนวนเงินลงทุนต่อปี หรือ เพิ่มผลตอบแทนคาดหวังต่อปี"
         "หรือ ยืดอายุเกษียณของคุณ เพื่อให้ทุนเกษียณเพียงพอต่อค่าใช้จ่ายหลังเกษียณของคุณ"
     )
@@ -164,6 +166,7 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
+# Show the parameter values with percentages correctly formatted
 st.markdown(f"""
 - **อายุปัจจุบัน:** {current_age}
 - **อายุเกษียณ:** {retirement_age}
