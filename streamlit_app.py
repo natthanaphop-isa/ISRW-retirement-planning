@@ -20,7 +20,7 @@ def retirement_simulation(
     years_to_retirement = retirement_age - current_age
     years_post_retirement = life_expectancy - retirement_age
     total_years = years_to_retirement + years_post_retirement
-    annual_expense = annual_expense*(inflation_rate^years_to_retirement)
+    #annual_expense = annual_expense*(inflation_rate^years_to_retirement)
 
     # Initialize values
     age_range = np.arange(current_age, life_expectancy + 1)
