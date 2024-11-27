@@ -1,3 +1,9 @@
 [theme]
 base="dark"
 primaryColor="#ffde59"
+
+[server]
+headless = true
+
+[layout]
+wide = true
