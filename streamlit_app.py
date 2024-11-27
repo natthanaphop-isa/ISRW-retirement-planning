@@ -101,7 +101,7 @@ def retirement_simulation(
     return fig, df
 
 # Streamlit App Layout
-st.title("Retirement Fund Simulation")
+st.title("วางแผนเกษียณ by Isara Wealth")
 st.image("assets/retirement_planning.jpg", use_column_width=True)
 
 # Sidebar Inputs
@@ -156,7 +156,7 @@ else:
 st.plotly_chart(fig, use_column_width=True)  # Set use_column_width=True for responsive resizing
 
 # Display Summary with colored box around the status and recommendation
-st.header("Summary of Your Parameters and Plan")
+st.header("สรุปข้อมูลแผนเกษียณของคุณ")
 
 # Apply HTML styling with the correct box color
 st.markdown(f"""
