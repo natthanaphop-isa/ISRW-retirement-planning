@@ -93,7 +93,7 @@ def retirement_simulation(
 
 # Streamlit App Layout
 st.title("Retirement Fund Simulation")
-st.image("assets/retirement_planning.jpg", caption="Your Retirement Journey", use_column_width=True)
+st.image("assets/retirement_planning.jpg", width=600) #use_column_width=True)
 
 # Sidebar Inputs
 st.sidebar.header("Input Parameters")
