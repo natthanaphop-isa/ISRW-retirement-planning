@@ -93,11 +93,8 @@ def retirement_simulation(
 
 # Streamlit App Layout
 st.title("Retirement Fund Simulation")
-#st.image("assets/retirement_planning.jpg", width=600) #use_column_width=True)
+st.image("assets/retirement_planning.jpg", width=600) #use_column_width=True)
 
-image_path = "assets/retirement_planning.jpg"  # Replace with your image path
-# Use HTML to center the image
-st.markdown(f'<div style="text-align: center;"><img src="{image_path}" width="600"></div>', unsafe_allow_html=True)
 
 # Sidebar Inputs
 st.sidebar.header("Input Parameters")
