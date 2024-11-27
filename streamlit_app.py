@@ -121,7 +121,7 @@ retirement_age = st.sidebar.slider("อายุเกษียณ (ปี)", 50
 life_expectancy = st.sidebar.slider("อายุขัย (ปี)", 70, 100, 85, 1)
 starting_principal = st.sidebar.number_input("เงินทุนตั้งต้น (฿)", 0, 10000000, 1000000, 1000)
 annual_contribution = st.sidebar.number_input("เงินลงทุนเพิ่มต่อปี (฿)", 0, 1000000, 100000, 1000)
-annual_expense = st.sidebar.number_input("ค่าใช้จ่ายหลังเกษียณต่อปีรวมเงินเฟ้อ ถึง ณ วันเกษียณ (฿)", 0, 10000000, 500000, 1000)
+annual_expense = st.sidebar.number_input("ค่าใช้จ่ายหลังเกษียณต่อปี มูลค่าปัจจุบันไม่ต้องรวมเงินเฟ้อ (฿)", 0, 10000000, 500000, 1000)*inflation_rate^(current_age-retirement_age)
 
 # Adjusted sliders to display percentages properly
 inflation_rate = st.sidebar.slider("เงินเฟ้อ (%)", 0.0, 10.0, 3.5, 0.1) / 100  # Divide by 100 for calculation
