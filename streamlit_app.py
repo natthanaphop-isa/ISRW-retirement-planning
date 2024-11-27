@@ -184,7 +184,7 @@ st.markdown(f"""
 - **อายุขัย:** {life_expectancy} ปี
 - **เงินทุนตั้งต้น:** ฿{starting_principal:,.0f}
 - **เงินลงทุนเพิ่มต่อปี:** ฿{annual_contribution:,.0f}
-- **ค่าใช้จ่ายหลังเกษียณต่อปี:** ฿{annual_expense:,.0f}
+- **ค่าใช้จ่ายหลังเกษียณต่อปี (รวมเงินเฟ้อ ถึง ณ วันเกษียณ):** ฿{annual_expense:,.0f}
 - **เงินเฟ้อ:** {inflation_rate * 100:.1f}% ต่อปี
 - **ผลตอบแทนคาดหวังเฉลี่ยต่อปี (ระยะสะสม):** {annualized_return_pre * 100:.1f}%
 - **ผลตอบแทนคาดหวังเฉลี่ยต่อปี (ระยะใกล้เกษียณ):** {annualized_return_final_years * 100:.1f}%
