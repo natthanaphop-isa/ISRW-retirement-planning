@@ -80,13 +80,14 @@ def retirement_simulation(
     fig.add_vline(x=life_expectancy, line=dict(color='blue', dash='dash'), 
                   annotation_text='Life Expectancy', annotation_position="top right")
 
-    # Update layout with hovermode set to 'x unified'
+    # Update layout with hovermode set to 'x unified' and auto-size enabled
     fig.update_layout(
         title='Retirement Fund Projection',
         xaxis_title='Age',
         yaxis_title='Amount (฿)',
         yaxis_tickformat=',',
-        hovermode='x unified'  # Show all values on the same x-axis when hovering
+        hovermode='x unified',  # Show all values on the same x-axis when hovering
+        autosize=True  # Make the graph resize automatically
     )
 
     return fig, df
@@ -94,7 +95,6 @@ def retirement_simulation(
 # Streamlit App Layout
 st.title("Retirement Fund Simulation")
 st.image("assets/retirement_planning.jpg", use_column_width=True)
-
 
 # Sidebar Inputs
 st.sidebar.header("Input Parameters")
@@ -138,7 +138,7 @@ else:
     )
 
 # Display Results
-st.plotly_chart(fig)
+st.plotly_chart(fig, use_column_width=True)  # Set use_column_width=True for responsive resizing
 
 st.header("Summary of Your Parameters and Plan")
 st.markdown(f"""
