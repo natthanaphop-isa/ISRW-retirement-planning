@@ -121,7 +121,6 @@ retirement_age = st.sidebar.slider("อายุเกษียณ (ปี)", 50
 life_expectancy = st.sidebar.slider("อายุขัย (ปี)", 70, 100, 85, 1)
 starting_principal = st.sidebar.number_input("เงินทุนตั้งต้น (฿)", 0, 10000000, 1000000, 1000)
 annual_contribution = st.sidebar.number_input("เงินลงทุนเพิ่มต่อปี (฿)", 0, 1000000, 100000, 1000)
-annual_expense = st.sidebar.number_input("ค่าใช้จ่ายหลังเกษียณต่อปีรวมเงินเฟ้อถึง ณ วันเกษียณ (฿)", 0, 10000000, 500000, 1000)
 
 # Adjusted sliders to display percentages properly
 inflation_rate = st.sidebar.slider("เงินเฟ้อ (%)", 0.0, 10.0, 3.5, 0.1) / 100  # Divide by 100 for calculation
@@ -129,6 +128,7 @@ annualized_return_pre = st.sidebar.slider("ผลตอบแทนคาดห�
 annualized_return_final_years = st.sidebar.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะใกล้เกษียณ (%)", 0.0, 10.0, 5.0, 0.1) / 100  # Divide by 100 for calculation
 years_final_return = st.sidebar.slider("เตรียมพร้อมก่อนเกษียณกี่ปี: ระยะใกล้เกษียณ (ปี)", 1, 20, 10, 1)
 annualized_return_post = st.sidebar.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะหลังเกษียณ (%)", 0.0, 20.0, 3.5, 0.1) / 100  # Divide by 100 for calculation
+annual_expense = st.sidebar.number_input("ค่าใช้จ่ายหลังเกษียณต่อปี รวมเงินเฟ้อถึง ณ วันเกษียณ (฿)", 0, 10000000, 500000, 1000)*(inflation_rate^(retirement_age-current_age))
 
 # Run Simulation
 fig, df = retirement_simulation(
