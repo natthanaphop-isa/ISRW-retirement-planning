@@ -155,9 +155,6 @@ else:
 # Display the Plotly chart
 st.plotly_chart(fig, use_column_width=True)  # Set use_column_width=True for responsive resizing
 
-# Display Summary with colored box around the status and recommendation
-st.header("สรุปข้อมูล แผนเกษียณของคุณ")
-
 # Apply HTML styling with the correct box color
 st.markdown(f"""
     <div style="background-color:{box_color}; padding: 15px; border-radius: 5px;">
@@ -166,9 +163,11 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
+# Display Summary with colored box around the status and recommendation
+st.header("สรุปข้อมูล แผนเกษียณของคุณ")
+
 # Show the parameter values with percentages correctly formatted
 st.markdown(f"""
-
 - **อายุปัจจุบัน:** {current_age} ปี
 - **อายุเกษียณ:** {retirement_age} ปี
 - **อายุขัย:** {life_expectancy} ปี
