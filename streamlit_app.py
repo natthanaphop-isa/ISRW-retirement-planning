@@ -168,6 +168,7 @@ st.markdown(f"""
 
 # Show the parameter values with percentages correctly formatted
 st.markdown(f"""
+
 - **อายุปัจจุบัน:** {current_age} ปี
 - **อายุเกษียณ:** {retirement_age} ปี
 - **อายุขัย:** {life_expectancy} ปี
