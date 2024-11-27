@@ -58,8 +58,8 @@ def retirement_simulation(
         x=df['Age'], 
         y=df['Fund Balance'],
         mode='lines+markers',
-        name='Fund Balance',
-        hovertemplate='Age: %{x}<br>Balance: ฿%{y:,.0f}<extra></extra>'
+        name='เงินทุนเกษียณ',
+        hovertemplate='อายุ: %{x}<br>เงินทุน: ฿%{y:,.0f}<extra></extra>'
     ))
     
     # Add line for cumulative expenses
@@ -67,24 +67,24 @@ def retirement_simulation(
         x=df['Age'], 
         y=df['Cumulative Expense'],
         mode='lines+markers',
-        name='Cumulative Expense',
-        hovertemplate='Age: %{x}<br>Cumulative Expense: ฿%{y:,.0f}<extra></extra>',
+        name='รายจ่ายสะสม',
+        hovertemplate='อายุ: %{x}<br>รายจ่ายสะสม: ฿%{y:,.0f}<extra></extra>',
         line=dict(dash='dash', color='red')
     ))
 
     # Add vertical lines for key milestones
     fig.add_vline(x=retirement_age - years_final_return, line=dict(color='orange', dash='dash'), 
-                  annotation_text=f'Final {years_final_return} Years Pre-Retirement', annotation_position="top left")
+                  annotation_text=f'{years_final_return} ปีสุดท้ายก่อนเกษียณ', annotation_position="top left")
     fig.add_vline(x=retirement_age, line=dict(color='green', dash='dash'), 
-                  annotation_text='Retirement Age', annotation_position="top right")
+                  annotation_text='อายุเกษียณ', annotation_position="top right")
     fig.add_vline(x=life_expectancy, line=dict(color='blue', dash='dash'), 
-                  annotation_text='Life Expectancy', annotation_position="top right")
+                  annotation_text='อายุขัย', annotation_position="top right")
 
     # Update layout with hovermode set to 'x unified' and auto-size enabled
     fig.update_layout(
-        title='Retirement Fund Projection',
-        xaxis_title='Age',
-        yaxis_title='Amount (฿)',
+        title='กราฟแสดงแผนการเกษียณ',
+        xaxis_title='อายุ (ปี)',
+        yaxis_title='จำนวนเงิน (฿)',
         yaxis_tickformat=',',
         hovermode='x unified',  # Show all values on the same x-axis when hovering
         autosize=True,  # Make the graph resize automatically
@@ -101,7 +101,7 @@ def retirement_simulation(
     return fig, df
 
 # Streamlit App Layout
-st.title("วางแผนเกษียณ by Isara Wealth")
+st.title("Retirement Planning by Isara Wealth")
 st.image("assets/retirement_planning.jpg", use_column_width=True)
 
 # Sidebar Inputs
@@ -156,7 +156,7 @@ else:
 st.plotly_chart(fig, use_column_width=True)  # Set use_column_width=True for responsive resizing
 
 # Display Summary with colored box around the status and recommendation
-st.header("สรุปข้อมูลแผนเกษียณของคุณ")
+st.header("สรุปข้อมูล แผนเกษียณของคุณ")
 
 # Apply HTML styling with the correct box color
 st.markdown(f"""
