@@ -73,11 +73,11 @@ def retirement_simulation(
     ))
 
     # Add vertical lines for key milestones
-    fig.add_vline(x=retirement_age - years_final_return, line=dict(color='black', dash='dash'), 
+    fig.add_vline(x=retirement_age - years_final_return, line=dict(color='orange', dash='dash'), 
                   annotation_text=f'Final {years_final_return} Years Pre-Retirement', annotation_position="top left")
     fig.add_vline(x=retirement_age, line=dict(color='green', dash='dash'), 
                   annotation_text='Retirement Age', annotation_position="top right")
-    fig.add_vline(x=life_expectancy, line=dict(color='blue', dash='dot'), 
+    fig.add_vline(x=life_expectancy, line=dict(color='blue', dash='dash'), 
                   annotation_text='Life Expectancy', annotation_position="top right")
 
     # Update layout with hovermode set to 'x unified'
@@ -93,7 +93,7 @@ def retirement_simulation(
 
 # Streamlit App Layout
 st.title("Retirement Fund Simulation")
-st.image("assets/retirement_planning.jpg", width=600) #use_column_width=True)
+st.image("assets/retirement_planning.jpg", use_column_width=True)
 
 
 # Sidebar Inputs
