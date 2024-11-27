@@ -106,17 +106,17 @@ st.image("assets/retirement_planning.jpg", use_column_width=True)
 
 # Sidebar Inputs
 st.sidebar.header("Input Parameters")
-current_age = st.sidebar.slider("Current Age", 20, 50, 27, 1)
-retirement_age = st.sidebar.slider("Retirement Age", 50, 75, 60, 1)
-life_expectancy = st.sidebar.slider("Life Expectancy", 70, 100, 85, 1)
-starting_principal = st.sidebar.number_input("Starting Principal (฿)", 0, 10000000, 1000000, 1000)
-annual_contribution = st.sidebar.number_input("Annual Contribution (฿)", 0, 1000000, 100000, 1000)
-annual_expense = st.sidebar.number_input("Annual Expense in Retirement (฿)", 0, 10000000, 500000, 1000)
-inflation_rate = st.sidebar.slider("Inflation Rate (%)", 0.0, 0.1, 0.035, 0.005)
-annualized_return_pre = st.sidebar.slider("Annualized Return (Pre-Retirement) (%)", 0.0, 0.15, 0.07, 0.005)
-annualized_return_final_years = st.sidebar.slider("Annualized Return (Final Years Pre-Retirement) (%)", 0.0, 0.1, 0.05, 0.005)
-years_final_return = st.sidebar.slider("Years of Final Return Rate Before Retirement", 1, 20, 10, 1)
-annualized_return_post = st.sidebar.slider("Annualized Return (Post-Retirement) (%)", 0.0, 0.1, 0.035, 0.005)
+current_age = st.sidebar.slider("อายุปัจจุบัน (ปี)", 20, 50, 27, 1)
+retirement_age = st.sidebar.slider("อายุเกษียณ (ปี)", 50, 75, 60, 1)
+life_expectancy = st.sidebar.slider("อายุขัย (ปี)", 70, 100, 85, 1)
+starting_principal = st.sidebar.number_input("เงินทุนตั้งต้น (฿)", 0, 10000000, 1000000, 1000)
+annual_contribution = st.sidebar.number_input("เงินลงทุนเพิ่มต่อปี (฿)", 0, 1000000, 100000, 1000)
+annual_expense = st.sidebar.number_input("ค่าใช้จ่ายหลังเกษียณต่อปี (฿)", 0, 10000000, 500000, 1000)
+inflation_rate = st.sidebar.slider("เงินเฟ้อ (%)", 0.0, 0.1, 0.035, 0.005)
+annualized_return_pre = st.sidebar.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะสะสม (%)", 0.0, 0.15, 0.07, 0.005)
+annualized_return_final_years = st.sidebar.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะใกล้เกษียณ (%)", 0.0, 0.1, 0.05, 0.005)
+years_final_return = st.sidebar.slider("เตรียมพร้อมก่อนเกษียณกี่ปี: ระยะใกล้เกษียณ (ปี)", 1, 20, 10, 1)
+annualized_return_post = st.sidebar.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะหลังเกษียณ (%)", 0.0, 0.1, 0.035, 0.005)
 
 # Run Simulation
 fig, df = retirement_simulation(
@@ -164,15 +164,15 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 st.markdown(f"""
-- **Current Age:** {current_age}
-- **Retirement Age:** {retirement_age}
-- **Life Expectancy:** {life_expectancy}
-- **Starting Principal:** ฿{starting_principal:,.0f}
-- **Annual Contribution:** ฿{annual_contribution:,.0f}
-- **Annual Expense in Retirement:** ฿{annual_expense:,.0f}
-- **Inflation Rate:** {inflation_rate * 100:.1f}%
-- **Annualized Return (Pre-Retirement):** {annualized_return_pre * 100:.1f}%
-- **Annualized Return (Final Years Pre-Retirement):** {annualized_return_final_years * 100:.1f}%
-- **Years of Final Return Rate Before Retirement:** {years_final_return}
-- **Annualized Return (Post-Retirement):** {annualized_return_post * 100:.1f}%
+- **อายุปัจจุบัน:** {current_age}
+- **อายุเกษียณ:** {retirement_age}
+- **อายุขัย:** {life_expectancy}
+- **เงินทุนตั้งต้น:** ฿{starting_principal:,.0f}
+- **เงินลงทุนเพิ่มต่อปี:** ฿{annual_contribution:,.0f}
+- **ค่าใช้จ่ายหลังเกษียณต่อปี:** ฿{annual_expense:,.0f}
+- **เงินเฟ้อ:** {inflation_rate * 100:.1f}%
+- **ผลตอบแทนคาดหวังเฉลี่ยต่อปี (ระยะสะสม):** {annualized_return_pre * 100:.1f}%
+- **ผลตอบแทนคาดหวังเฉลี่ยต่อปี (ระยะใกล้เกษียณ):** {annualized_return_final_years * 100:.1f}%
+- **เตรียมพร้อมก่อนเกษียณกี่ปี  (ระยะใกล้เกษียณ):** {years_final_return}
+- **ผลตอบแทนคาดหวังเฉลี่ยต่อปี (ระยะหลังเกษียณ):** {annualized_return_post * 100:.1f}%
 """)
