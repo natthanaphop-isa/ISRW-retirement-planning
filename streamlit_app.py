@@ -168,15 +168,15 @@ st.markdown(f"""
 
 # Show the parameter values with percentages correctly formatted
 st.markdown(f"""
-- **อายุปัจจุบัน:** {current_age}
-- **อายุเกษียณ:** {retirement_age}
-- **อายุขัย:** {life_expectancy}
+- **อายุปัจจุบัน:** {current_age} ปี
+- **อายุเกษียณ:** {retirement_age} ปี
+- **อายุขัย:** {life_expectancy} ปี
 - **เงินทุนตั้งต้น:** ฿{starting_principal:,.0f}
 - **เงินลงทุนเพิ่มต่อปี:** ฿{annual_contribution:,.0f}
 - **ค่าใช้จ่ายหลังเกษียณต่อปี:** ฿{annual_expense:,.0f}
-- **เงินเฟ้อ:** {inflation_rate * 100:.1f}%
+- **เงินเฟ้อ:** {inflation_rate * 100:.1f}% ต่อปี
 - **ผลตอบแทนคาดหวังเฉลี่ยต่อปี (ระยะสะสม):** {annualized_return_pre * 100:.1f}%
 - **ผลตอบแทนคาดหวังเฉลี่ยต่อปี (ระยะใกล้เกษียณ):** {annualized_return_final_years * 100:.1f}%
-- **เตรียมพร้อมก่อนเกษียณกี่ปี  (ระยะใกล้เกษียณ):** {years_final_return}
+- **เตรียมพร้อมก่อนเกษียณกี่ปี  (ระยะใกล้เกษียณ):** {years_final_return} ปี
 - **ผลตอบแทนคาดหวังเฉลี่ยต่อปี (ระยะหลังเกษียณ):** {annualized_return_post * 100:.1f}%
 """)
