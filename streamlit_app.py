@@ -139,7 +139,7 @@ fig, df = retirement_simulation(
 final_fund_balance = df.iloc[-1]['Fund Balance']
 if final_fund_balance > 0:
     status = "แผนเกษียณสำเร็จ ✅"
-    recommendation = f"เงินทุนเกษียณของคุณมากพอต่อค่าใช้จ่ายหลังเกษียณ รวมเงินเฟ้อ {inflation_rate*100:1.f}% ต่อปีจนสิ้นอายุขัย"
+    recommendation = f"เงินทุนเกษียณของคุณมากพอต่อค่าใช้จ่ายหลังเกษียณ รวมเงินเฟ้อ {inflation_rate*100:.1f}% ต่อปีจนสิ้นอายุขัย"
     box_color = "#D4EDDA"  # Green box color for success
     text_color = "#155724"  # Dark green text for success
 else:
