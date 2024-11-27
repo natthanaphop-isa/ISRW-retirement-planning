@@ -171,4 +171,7 @@ st.markdown(f"""
 - **Annual Expense in Retirement:** ฿{annual_expense:,.0f}
 - **Inflation Rate:** {inflation_rate * 100:.1f}%
 - **Annualized Return (Pre-Retirement):** {annualized_return_pre * 100:.1f}%
-- **Annualized Return (Final Years Pre-Retirement):** {annualized_return_final_years
+- **Annualized Return (Final Years Pre-Retirement):** {annualized_return_final_years * 100:.1f}%
+- **Years of Final Return Rate Before Retirement:** {years_final_return}
+- **Annualized Return (Post-Retirement):** {annualized_return_post * 100:.1f}%
+""")
