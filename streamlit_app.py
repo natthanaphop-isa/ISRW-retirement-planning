@@ -119,7 +119,7 @@ current_age = st.sidebar.slider("อายุปัจจุบัน (ปี)",
 retirement_age = st.sidebar.slider("อายุเกษียณ (ปี)", 50, 75, 60, 1)
 life_expectancy = st.sidebar.slider("อายุขัย (ปี)", 70, 100, 85, 1)
 starting_principal = st.sidebar.number_input("เงินทุนตั้งต้น (฿)", 0, 10000000, 1000000, 1000)
-annual_contribution = st.sidebar.number_input("เงินลงทุนเพิ่มต่อปี (฿)", 0, 1000000, 360000, 1000)
+annual_contribution = st.sidebar.number_input("เงินลงทุนเพิ่มต่อเดือน (฿)", 0, 1000000, 36000, 1000)*12
 
 
 # Adjusted sliders to display percentages properly
