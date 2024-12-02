@@ -148,7 +148,7 @@ fig, df = retirement_simulation(
 # Check if a retirement plan is successful
 final_fund_balance = df.iloc[-1]['Fund Balance']
 if final_fund_balance > 0:
-    status = "แผนเกษียณสำเร็จ ✅"
+    status = "แผนเกษียณของคุณเป็นไปได้ ✅"
     recommendation = (f"เงินทุนเกษียณของคุณมากพอต่อค่าใช้จ่ายหลังเกษียณ รวมเงินเฟ้อ {inflation_rate*100:.1f}% ต่อปีจนสิ้นอายุขัย"
                         f"และมีมรดกหลังสิ้นอายุขัย: ฿{final_fund_balance:,.0f}")
     box_color = "#D4EDDA"  # Green box color for success
