@@ -102,7 +102,7 @@ def retirement_simulation(
 
 # Streamlit App Layout
 st.title("Retirement Planning by Isara Wealth")
-st.image("assets/retirement_planning.jpg", use_column_width=True)
+st.image("assets/retirement_planning.jpg", use_container_width=True)
 
 st.markdown(f"""
 จัดทำโดย นพ.ณัฐธนภพ อิศรเดช (หมอเฟ้น)
