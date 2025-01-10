@@ -113,24 +113,36 @@ st.markdown(f"""
 - ตัวแทนประกันชีวิตและ Unitlink AIA รหัส 692246
 """)
 
-# Sidebar Inputs
-st.sidebar.header("กรอกข้อมูล")
-current_age = st.sidebar.slider("อายุปัจจุบัน (ปี)", 20, 50, 27, 1)
-retirement_age = st.sidebar.slider("อายุเกษียณ (ปี)", 50, 75, 60, 1)
-life_expectancy = st.sidebar.slider("อายุขัย (ปี)", 70, 100, 85, 1)
-starting_principal = st.sidebar.number_input("เงินทุนตั้งต้น (฿)", 0, 10000000, 1000000, 1000)
-annual_contribution = st.sidebar.number_input("เงินลงทุนเพิ่มต่อเดือน (฿)", 0, 1000000, 36000, 1000)*12
-
+# Inputs
+st.header("กรอกข้อมูล")
+current_age = st.slider("อายุปัจจุบัน (ปี)", 20, 50, 27, 1)
+retirement_age = st.slider("อายุเกษียณ (ปี)", 50, 75, 60, 1)
+life_expectancy = st.slider("อายุขัย (ปี)", 70, 100, 85, 1)
+starting_principal = st.number_input("เงินทุนตั้งต้น (฿)", 0, 10000000, 1000000, 1000)
+annual_contribution = st.number_input("เงินลงทุนเพิ่มต่อเดือน (฿)", 0, 1000000, 36000, 1000)*12
+need_expense = st.number_input("[NEED] ค่าใช้จ่ายจำเป็นหลังเกษียณต่อเดือน มูลค่าปัจจุบัน ไม่รวมเงินเฟ้อ (฿)", 0, 10000000, 36000, 1000)
+want_expense = st.number_input("[WANT] ค่าใช้จ่าพิเศษหลังเกษียณต่อเดือน มูลค่าปัจจุบัน ไม่รวมเงินเฟ้อ (฿)", 0, 10000000, 36000, 1000)
+selection1 = st.segmented_control("ต้องการคำนวนทุนค่ารักษาพยาบาล ณ วันเกษียณ ด้วยหรือไม่", ["ต้องการ","ไม่ต้องการ"], selection_mode="single", key="HEALTH")
+if selection1 == "ต้องการ": 
+    health_expense = st.number_input("[HEALTH] ทุนค่ารักษาพยาบาล ณ วันเกษียณ (฿)", 0, 10000000, 1000000, 100000)
+else:
+    health_expense = 0
+    
+selection2 = st.segmented_control("ต้องการคำนวนค่าใช้จ่ายพิเศษอื่น ๆ ที่ต้องใช้เงินก้อน ณ วันเกษียณ ด้วยหรือไม่", ["ต้องการ","ไม่ต้องการ"], selection_mode="single",key="ETC")    
+if selection2 == "ต้องการ": 
+    etc_expense = st.number_input("[ETC.] ค่าใช้จ่ายพิเศษอื่น ๆ ที่ต้องใช้เงินก้อน ณ วันเกษียณ", 0, 10000000, 100000, 100000)
+else:
+    health_expense = 0
 
 # Adjusted sliders to display percentages properly
-inflation_rate = st.sidebar.slider("เงินเฟ้อ (%)", 0.0, 10.0, 3.5, 0.1) / 100  # Divide by 100 for calculation
-annual_expense = st.sidebar.number_input("ค่าใช้จ่ายหลังเกษียณต่อเดือน มูลค่าปัจจุบัน ไม่รวมเงินเฟ้อ (฿)", 0, 10000000, 36000, 1000)
+annual_expense = need_expense + want_expense
+inflation_rate = st.slider("เงินเฟ้อ (%)", 0.0, 10.0, 3.5, 0.1) / 100  # Divide by 100 for calculation
 retire_monthly_expense_no_inflation = annual_expense
 annual_expense = annual_expense*12*(1+inflation_rate)**(retirement_age - current_age)
-annualized_return_pre = st.sidebar.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะสะสม (%)", 0.0, 20.0, 7.0, 0.1) / 100  # Divide by 100 for calculation
-annualized_return_final_years = st.sidebar.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะใกล้เกษียณ (%)", 0.0, 10.0, 5.0, 0.1) / 100  # Divide by 100 for calculation
-years_final_return = st.sidebar.slider("เตรียมพร้อมก่อนเกษียณกี่ปี: ระยะใกล้เกษียณ (ปี)", 1, 20, 10, 1)
-annualized_return_post = st.sidebar.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะหลังเกษียณ (%)", 0.0, 20.0, 3.5, 0.1) / 100  # Divide by 100 for calculation
+annualized_return_pre = st.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะสะสม (%)", 0.0, 20.0, 7.0, 0.1) / 100  # Divide by 100 for calculation
+annualized_return_final_years = st.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะใกล้เกษียณ (%)", 0.0, 10.0, 5.0, 0.1) / 100  # Divide by 100 for calculation
+years_final_return = st.slider("เตรียมพร้อมก่อนเกษียณกี่ปี: ระยะใกล้เกษียณ (ปี)", 1, 20, 10, 1)
+annualized_return_post = st.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะหลังเกษียณ (%)", 0.0, 20.0, 3.5, 0.1) / 100  # Divide by 100 for calculation
 
 # Run Simulation
 fig, df = retirement_simulation(
