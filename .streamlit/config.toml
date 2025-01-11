@@ -1,6 +1,10 @@
 [theme]
 base="dark"
-primaryColor="#ffde59"
+primaryColor="#28D050"
+font="monospace"
+
+##ffde59
 
 [layout]
 wide = true
+
