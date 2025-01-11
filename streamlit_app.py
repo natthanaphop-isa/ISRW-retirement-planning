@@ -253,7 +253,7 @@ box_color = "#3c3c3c"
 
 st.markdown(f"""
     <div style="background-color:{box_color}; padding: 15px; border-radius: 5px;">
-    จัดทำโดย **นพ.ณัฐธนภพ อิศรเดช (หมอเฟ้น)**
+    จัดทำโดย นพ.ณัฐธนภพ อิศรเดช (หมอเฟ้น)
     - แพทย์ และนักวิจัย: Machine Learning, Clinical NLP, Clinical Epidemiology
     - เจ้าของบล็อก www.isarawealth.com
     - IP License No. 132355 ใบอนุญาตผู้วางแผนการลงทุน โดย กลต.
