@@ -124,15 +124,6 @@ def retirement_simulation(
 st.title("Retirement Planning by Isara Wealth")
 st.image("assets/retirement_planning.jpg", use_container_width=True)
 
-st.markdown(f"""
-จัดทำโดย **นพ.ณัฐธนภพ อิศรเดช (หมอเฟ้น)**
-- แพทย์ และนักวิจัย: Machine Learning, Clinical NLP, Clinical Epidemiology
-- เจ้าของบล็อก www.isarawealth.com
-- IP License No. 132355 ใบอนุญาตผู้วางแผนการลงทุน โดย กลต.
-- ที่ปรึกษาทางการเงิน บลน. Finnomena
-- ตัวแทนประกันชีวิตและ Unitlink AIA รหัส 692246
-""")
-
 # Inputs
 st.sidebar.header("กรอกข้อมูล")
 current_age = st.sidebar.slider("อายุปัจจุบัน (ปี)", 20, 50, 27, 1)
@@ -257,3 +248,12 @@ with col2:
 
 st.markdown(f"""*หมายเหตุ: เครื่องมือชิ้นนี้จะเน้นวางแผนการเกษียณในระยะสะสม แต่จะยังไม่ได้ลงรายละเอียดในส่วนการวางแผนการลงทุนหลังวัยเกษียณ ซึ่งจะมีรายละเอียดเพิ่มเติมมากกว่านี้ 
             และหากท่านใดมีไอเดียดี ๆ อยากส่งให้ทีมงานปรับปรุงและพัฒนาสามารถทักเข้ามาได้ที่ isarawealth@gmail.com ได้เลยครับ""")
+
+st.markdown(f"""
+จัดทำโดย **นพ.ณัฐธนภพ อิศรเดช (หมอเฟ้น)**
+- แพทย์ และนักวิจัย: Machine Learning, Clinical NLP, Clinical Epidemiology
+- เจ้าของบล็อก www.isarawealth.com
+- IP License No. 132355 ใบอนุญาตผู้วางแผนการลงทุน โดย กลต.
+- ที่ปรึกษาทางการเงิน บลน. Finnomena
+- ตัวแทนประกันชีวิตและ Unitlink AIA รหัส 692246
+""")
