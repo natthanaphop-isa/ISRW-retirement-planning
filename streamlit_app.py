@@ -45,7 +45,7 @@ def retirement_simulation(
         elif age == (retirement_age + 1):
             # Include one-time expenses in the withdrawal for the retirement year
             annual_withdrawal = (
-                annual_expense * (1 + inflation_rate) ** (age - retirement_age)
+                (annual_expense * (1 + inflation_rate) ** (age - retirement_age))
                 + health_risk_expense
                 + yearly_health_expense
                 + etc_expense
@@ -55,7 +55,7 @@ def retirement_simulation(
         else:
             # Include one-time expenses in the withdrawal for the retirement year
             annual_withdrawal = (
-                annual_expense * (1 + inflation_rate) ** (age - retirement_age)
+                (annual_expense * (1 + inflation_rate) ** (age - retirement_age))
                 + yearly_health_expense
             )
             fund_balance[i] = (fund_balance[i-1] - annual_withdrawal) * (1 + annualized_return_post)
