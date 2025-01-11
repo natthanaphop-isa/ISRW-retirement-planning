@@ -135,43 +135,26 @@ st.markdown(f"""
 
 # Inputs
 st.sidebar.header("กรอกข้อมูล")
-# Sidebar Inputs
 current_age = st.sidebar.slider("อายุปัจจุบัน (ปี)", 20, 50, 27, 1)
 retirement_age = st.sidebar.slider("อายุเกษียณ (ปี)", 50, 75, 65, 1)
 life_expectancy = st.sidebar.slider("อายุขัย (ปี)", 70, 100, 85, 1)
-
-# Display input values with commas
-starting_principal = st.sidebar.number_input("เงินทุนตั้งต้น (฿)", 0, 10000000, 100000, 1000)
-st.sidebar.write(f"เงินทุนตั้งต้น: ฿{starting_principal:,.0f}")
-
-annual_contribution = st.sidebar.number_input("เงินลงทุนเพิ่มต่อเดือน (฿)", 0, 1000000, 20000, 1000) * 12
-st.sidebar.write(f"เงินลงทุนเพิ่มต่อปี: ฿{annual_contribution:,.0f}")
-
+starting_principal = st.sidebar.number_input("เงินทุนตั้งต้น (฿)", 0, 10000000, 100000, 10000)
+annual_contribution = st.sidebar.number_input("เงินลงทุนเพิ่มต่อเดือน (฿)", 0, 1000000, 20000, 1000)*12
 need_expense = st.sidebar.number_input("[NEED] ค่าใช้จ่ายจำเป็นหลังเกษียณต่อเดือน มูลค่าปัจจุบัน ไม่รวมเงินเฟ้อ (฿)", 0, 10000000, 20000, 1000)
-st.sidebar.write(f"ค่าใช้จ่ายจำเป็นต่อเดือน: ฿{need_expense:,.0f}")
-
 want_expense = st.sidebar.number_input("[WANT] ค่าใช้จ่าพิเศษหลังเกษียณต่อเดือน มูลค่าปัจจุบัน ไม่รวมเงินเฟ้อ (฿)", 0, 10000000, 20000, 1000)
-st.sidebar.write(f"ค่าใช้จ่ายพิเศษต่อเดือน: ฿{want_expense:,.0f}")
-
-# Toggle for health insurance expense
 selection1 = st.sidebar.toggle("คำนวณทุนค่ารักษาพยาบาล ณ วันเกษียณ")
 if selection1: 
     health_insurance_expense = st.sidebar.number_input("[HEALTH] เบี้ยประกันสุขภาพ ณ วันเกษียณ จนสิ้นอายุขัย (฿)", 0, 10000000, 3000000, 100000)
-    st.sidebar.write(f"เบี้ยประกันสุขภาพ: ฿{health_insurance_expense:,.0f}")
     health_risk_expense = st.sidebar.number_input("[HEALTH] ทุนค่ารักษาพยาบาล ณ วันเกษียณ (฿)", 0, 10000000, 1000000, 100000)
-    st.sidebar.write(f"ทุนค่ารักษาพยาบาล: ฿{health_risk_expense:,.0f}")
 else:
     health_insurance_expense = 0
     health_risk_expense = 0
     
-# Toggle for additional expenses
 selection2 = st.sidebar.toggle("คำนวนค่าใช้จ่ายพิเศษอื่น ๆ ที่ต้องใช้เงินก้อน ณ วันเกษียณ")
 if selection2: 
     etc_expense = st.sidebar.number_input("[ETC.] ค่าใช้จ่ายพิเศษอื่น ๆ ที่ต้องใช้เงินก้อน ณ วันเกษียณ", 0, 10000000, 300000, 100000)
-    st.sidebar.write(f"ค่าใช้จ่ายพิเศษอื่น ๆ: ฿{etc_expense:,.0f}")
 else:
     etc_expense = 0
-
 
 # Adjusted sliders to display percentages properly
 annual_expense = need_expense + want_expense
