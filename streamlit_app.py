@@ -125,37 +125,37 @@ st.title("Retirement Planning by Isara Wealth")
 st.image("assets/retirement_planning.jpg", use_container_width=True)
 
 # Inputs
-st.sidebar.header("กรอกข้อมูล")
-current_age = st.sidebar.slider("อายุปัจจุบัน (ปี)", 20, 50, 27, 1)
-retirement_age = st.sidebar.slider("อายุเกษียณ (ปี)", 50, 75, 65, 1)
-life_expectancy = st.sidebar.slider("อายุขัย (ปี)", 70, 100, 85, 1)
-starting_principal = st.sidebar.number_input("เงินทุนตั้งต้น (฿)", 0, 10000000, 100000, 10000)
-annual_contribution = st.sidebar.number_input("เงินลงทุนเพิ่มต่อเดือน (฿)", 0, 1000000, 20000, 1000)*12
-need_expense = st.sidebar.number_input("[NEED] ค่าใช้จ่ายจำเป็นหลังเกษียณต่อเดือน มูลค่าปัจจุบัน ไม่รวมเงินเฟ้อ (฿)", 0, 10000000, 20000, 1000)
-want_expense = st.sidebar.number_input("[WANT] ค่าใช้จ่าพิเศษหลังเกษียณต่อเดือน มูลค่าปัจจุบัน ไม่รวมเงินเฟ้อ (฿)", 0, 10000000, 20000, 1000)
-selection1 = st.sidebar.toggle("คำนวณทุนค่ารักษาพยาบาล ณ วันเกษียณ")
+st.header("กรอกข้อมูล")
+current_age = st.slider("อายุปัจจุบัน (ปี)", 20, 50, 27, 1)
+retirement_age = st.slider("อายุเกษียณ (ปี)", 50, 75, 65, 1)
+life_expectancy = st.slider("อายุขัย (ปี)", 70, 100, 85, 1)
+starting_principal = st.number_input("เงินทุนตั้งต้น (฿)", 0, 10000000, 100000, 10000)
+annual_contribution = st.number_input("เงินลงทุนเพิ่มต่อเดือน (฿)", 0, 1000000, 20000, 1000)*12
+need_expense = st.number_input("[NEED] ค่าใช้จ่ายจำเป็นหลังเกษียณต่อเดือน มูลค่าปัจจุบัน ไม่รวมเงินเฟ้อ (฿)", 0, 10000000, 20000, 1000)
+want_expense = st.number_input("[WANT] ค่าใช้จ่าพิเศษหลังเกษียณต่อเดือน มูลค่าปัจจุบัน ไม่รวมเงินเฟ้อ (฿)", 0, 10000000, 20000, 1000)
+selection1 = st.toggle("คำนวณทุนค่ารักษาพยาบาล ณ วันเกษียณ")
 if selection1: 
-    health_insurance_expense = st.sidebar.number_input("[HEALTH] เบี้ยประกันสุขภาพ ณ วันเกษียณ จนสิ้นอายุขัย (฿)", 0, 10000000, 3000000, 100000)
-    health_risk_expense = st.sidebar.number_input("[HEALTH] ทุนค่ารักษาพยาบาล ณ วันเกษียณ (฿)", 0, 10000000, 1000000, 100000)
+    health_insurance_expense = st.number_input("[HEALTH] เบี้ยประกันสุขภาพ ณ วันเกษียณ จนสิ้นอายุขัย (฿)", 0, 10000000, 3000000, 100000)
+    health_risk_expense = st.number_input("[HEALTH] ทุนค่ารักษาพยาบาล ณ วันเกษียณ (฿)", 0, 10000000, 1000000, 100000)
 else:
     health_insurance_expense = 0
     health_risk_expense = 0
     
-selection2 = st.sidebar.toggle("คำนวนค่าใช้จ่ายพิเศษอื่น ๆ ที่ต้องใช้เงินก้อน ณ วันเกษียณ")
+selection2 = st.toggle("คำนวนค่าใช้จ่ายพิเศษอื่น ๆ ที่ต้องใช้เงินก้อน ณ วันเกษียณ")
 if selection2: 
-    etc_expense = st.sidebar.number_input("[ETC.] ค่าใช้จ่ายพิเศษอื่น ๆ ที่ต้องใช้เงินก้อน ณ วันเกษียณ", 0, 10000000, 300000, 100000)
+    etc_expense = st.number_input("[ETC.] ค่าใช้จ่ายพิเศษอื่น ๆ ที่ต้องใช้เงินก้อน ณ วันเกษียณ", 0, 10000000, 300000, 100000)
 else:
     etc_expense = 0
 
 # Adjusted sliders to display percentages properly
 annual_expense = need_expense + want_expense
-inflation_rate = st.sidebar.slider("เงินเฟ้อ (%)", 0.0, 10.0, 3.5, 0.1) / 100  # Divide by 100 for calculation
+inflation_rate = st.slider("เงินเฟ้อ (%)", 0.0, 10.0, 3.5, 0.1) / 100  # Divide by 100 for calculation
 retire_monthly_expense_no_inflation = annual_expense
 annual_expense = annual_expense*12*(1+inflation_rate)**(retirement_age - current_age)
-annualized_return_pre = st.sidebar.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะสะสม (%)", 0.0, 20.0, 8.0, 0.1) / 100  # Divide by 100 for calculation
-annualized_return_final_years = st.sidebar.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะใกล้เกษียณ (%)", 0.0, 10.0, 5.0, 0.1) / 100  # Divide by 100 for calculation
-years_final_return = st.sidebar.slider("ปรับพอร์ตการลงทุนก่อนเกษียณกี่ปี: ระยะใกล้เกษียณ (ปี)", 1, 20, 5, 1)
-annualized_return_post = st.sidebar.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะหลังเกษียณ (%)", 0.0, 20.0, 3.5, 0.1) / 100  # Divide by 100 for calculation
+annualized_return_pre = st.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะสะสม (%)", 0.0, 20.0, 8.0, 0.1) / 100  # Divide by 100 for calculation
+annualized_return_final_years = st.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะใกล้เกษียณ (%)", 0.0, 10.0, 5.0, 0.1) / 100  # Divide by 100 for calculation
+years_final_return = st.slider("ปรับพอร์ตการลงทุนก่อนเกษียณกี่ปี: ระยะใกล้เกษียณ (ปี)", 1, 20, 5, 1)
+annualized_return_post = st.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะหลังเกษียณ (%)", 0.0, 20.0, 3.5, 0.1) / 100  # Divide by 100 for calculation
 
 # Run Simulation
 fig, df, retire_fund = retirement_simulation(
