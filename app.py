@@ -15,7 +15,10 @@ def retirement_simulation(
     annualized_return_pre,
     annualized_return_final_years,
     years_final_return,
-    annualized_return_post
+    annualized_return_post,
+    etc_expense,
+    health_insurance_expense,
+    health_risk_expense
 ):
     years_to_retirement = retirement_age - current_age
     years_post_retirement = life_expectancy - retirement_age
@@ -26,6 +29,8 @@ def retirement_simulation(
     fund_balance = np.zeros_like(age_range, dtype=float)
     cumulative_expense = np.zeros_like(age_range, dtype=float)
     fund_balance[0] = starting_principal
+    yearly_health_expense = health_insurance_expense / years_post_retirement if years_post_retirement > 0 else 0
+    etc_expense = etc_expense * ((1 + inflation_rate)**years_to_retirement)
 
     for i, age in enumerate(age_range[1:], start=1):
         if age < retirement_age - years_final_return:
@@ -34,12 +39,27 @@ def retirement_simulation(
         elif age < retirement_age:
             # Final specified years before retirement: use different, more conservative return rate
             fund_balance[i] = (fund_balance[i-1] + annual_contribution) * (1 + annualized_return_final_years)
-        else:
-            # Post-retirement: subtract expenses and apply post-retirement return
-            annual_withdrawal = annual_expense * (1 + inflation_rate) ** (age - retirement_age)
+        elif age == retirement_age:
+            fund_balance[i] = (fund_balance[i-1] + annual_contribution) * (1 + annualized_return_final_years)
+            retire_fund = fund_balance[i]
+        elif age == (retirement_age + 1):
+            # Include one-time expenses in the withdrawal for the retirement year
+            annual_withdrawal = (
+                annual_expense * (1 + inflation_rate) ** (age - retirement_age)
+                + health_risk_expense
+                + yearly_health_expense
+                + etc_expense
+            )
             fund_balance[i] = (fund_balance[i-1] - annual_withdrawal) * (1 + annualized_return_post)
             cumulative_expense[i] = cumulative_expense[i-1] + annual_withdrawal
-            
+        else:
+            # Include one-time expenses in the withdrawal for the retirement year
+            annual_withdrawal = (
+                annual_expense * (1 + inflation_rate) ** (age - retirement_age)
+                + yearly_health_expense
+            )
+            fund_balance[i] = (fund_balance[i-1] - annual_withdrawal) * (1 + annualized_return_post)
+            cumulative_expense[i] = cumulative_expense[i-1] + annual_withdrawal
             # If fund depletes, stop the calculation
             if fund_balance[i] < 0:
                 fund_balance[i:] = 0
@@ -98,14 +118,14 @@ def retirement_simulation(
         margin=dict(b=120)  # Increase bottom margin for more space
     )
 
-    return fig, df
+    return fig, df, retire_fund
 
 # Streamlit App Layout
 st.title("Retirement Planning by Isara Wealth")
 st.image("assets/retirement_planning.jpg", use_container_width=True)
 
 st.markdown(f"""
-จัดทำโดย นพ.ณัฐธนภพ อิศรเดช (หมอเฟ้น)
+จัดทำโดย **นพ.ณัฐธนภพ อิศรเดช (หมอเฟ้น)**
 - แพทย์ และนักวิจัย: Machine Learning, Clinical NLP, Clinical Epidemiology
 - เจ้าของบล็อก www.isarawealth.com
 - IP License No. 132355 ใบอนุญาตผู้วางแผนการลงทุน โดย กลต.
@@ -114,38 +134,40 @@ st.markdown(f"""
 """)
 
 # Inputs
-st.header("กรอกข้อมูล")
-current_age = st.slider("อายุปัจจุบัน (ปี)", 20, 50, 27, 1)
-retirement_age = st.slider("อายุเกษียณ (ปี)", 50, 75, 60, 1)
-life_expectancy = st.slider("อายุขัย (ปี)", 70, 100, 85, 1)
-starting_principal = st.number_input("เงินทุนตั้งต้น (฿)", 0, 10000000, 1000000, 1000)
-annual_contribution = st.number_input("เงินลงทุนเพิ่มต่อเดือน (฿)", 0, 1000000, 36000, 1000)*12
-need_expense = st.number_input("[NEED] ค่าใช้จ่ายจำเป็นหลังเกษียณต่อเดือน มูลค่าปัจจุบัน ไม่รวมเงินเฟ้อ (฿)", 0, 10000000, 36000, 1000)
-want_expense = st.number_input("[WANT] ค่าใช้จ่าพิเศษหลังเกษียณต่อเดือน มูลค่าปัจจุบัน ไม่รวมเงินเฟ้อ (฿)", 0, 10000000, 36000, 1000)
-selection1 = st.segmented_control("ต้องการคำนวนทุนค่ารักษาพยาบาล ณ วันเกษียณ ด้วยหรือไม่", ["ต้องการ","ไม่ต้องการ"], selection_mode="single", key="HEALTH")
-if selection1 == "ต้องการ": 
-    health_expense = st.number_input("[HEALTH] ทุนค่ารักษาพยาบาล ณ วันเกษียณ (฿)", 0, 10000000, 1000000, 100000)
+st.sidebar.header("กรอกข้อมูล")
+current_age = st.sidebar.slider("อายุปัจจุบัน (ปี)", 20, 50, 27, 1)
+retirement_age = st.sidebar.slider("อายุเกษียณ (ปี)", 50, 75, 65, 1)
+life_expectancy = st.sidebar.slider("อายุขัย (ปี)", 70, 100, 85, 1)
+starting_principal = st.sidebar.number_input("เงินทุนตั้งต้น (฿)", 0, 10000000, 100000, 1000)
+annual_contribution = st.sidebar.number_input("เงินลงทุนเพิ่มต่อเดือน (฿)", 0, 1000000, 20000, 1000)*12
+need_expense = st.sidebar.number_input("[NEED] ค่าใช้จ่ายจำเป็นหลังเกษียณต่อเดือน มูลค่าปัจจุบัน ไม่รวมเงินเฟ้อ (฿)", 0, 10000000, 20000, 1000)
+want_expense = st.sidebar.number_input("[WANT] ค่าใช้จ่าพิเศษหลังเกษียณต่อเดือน มูลค่าปัจจุบัน ไม่รวมเงินเฟ้อ (฿)", 0, 10000000, 20000, 1000)
+selection1 = st.sidebar.toggle("คำนวณทุนค่ารักษาพยาบาล ณ วันเกษียณ")
+if selection1: 
+    health_insurance_expense = st.sidebar.number_input("[HEALTH] เบี้ยประกันสุขภาพ ณ วันเกษียณ จนสิ้นอายุขัย (฿)", 0, 10000000, 3000000, 100000)
+    health_risk_expense = st.sidebar.number_input("[HEALTH] ทุนค่ารักษาพยาบาล ณ วันเกษียณ (฿)", 0, 10000000, 1000000, 100000)
 else:
-    health_expense = 0
+    health_insurance_expense = 0
+    health_risk_expense = 0
     
-selection2 = st.segmented_control("ต้องการคำนวนค่าใช้จ่ายพิเศษอื่น ๆ ที่ต้องใช้เงินก้อน ณ วันเกษียณ ด้วยหรือไม่", ["ต้องการ","ไม่ต้องการ"], selection_mode="single",key="ETC")    
-if selection2 == "ต้องการ": 
-    etc_expense = st.number_input("[ETC.] ค่าใช้จ่ายพิเศษอื่น ๆ ที่ต้องใช้เงินก้อน ณ วันเกษียณ", 0, 10000000, 100000, 100000)
+selection2 = st.sidebar.toggle("คำนวนค่าใช้จ่ายพิเศษอื่น ๆ ที่ต้องใช้เงินก้อน ณ วันเกษียณ")
+if selection2: 
+    etc_expense = st.sidebar.number_input("[ETC.] ค่าใช้จ่ายพิเศษอื่น ๆ ที่ต้องใช้เงินก้อน ณ วันเกษียณ", 0, 10000000, 300000, 100000)
 else:
-    health_expense = 0
+    etc_expense = 0
 
 # Adjusted sliders to display percentages properly
 annual_expense = need_expense + want_expense
-inflation_rate = st.slider("เงินเฟ้อ (%)", 0.0, 10.0, 3.5, 0.1) / 100  # Divide by 100 for calculation
+inflation_rate = st.sidebar.slider("เงินเฟ้อ (%)", 0.0, 10.0, 3.5, 0.1) / 100  # Divide by 100 for calculation
 retire_monthly_expense_no_inflation = annual_expense
 annual_expense = annual_expense*12*(1+inflation_rate)**(retirement_age - current_age)
-annualized_return_pre = st.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะสะสม (%)", 0.0, 20.0, 7.0, 0.1) / 100  # Divide by 100 for calculation
-annualized_return_final_years = st.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะใกล้เกษียณ (%)", 0.0, 10.0, 5.0, 0.1) / 100  # Divide by 100 for calculation
-years_final_return = st.slider("เตรียมพร้อมก่อนเกษียณกี่ปี: ระยะใกล้เกษียณ (ปี)", 1, 20, 10, 1)
-annualized_return_post = st.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะหลังเกษียณ (%)", 0.0, 20.0, 3.5, 0.1) / 100  # Divide by 100 for calculation
+annualized_return_pre = st.sidebar.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะสะสม (%)", 0.0, 20.0, 8.0, 0.1) / 100  # Divide by 100 for calculation
+annualized_return_final_years = st.sidebar.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะใกล้เกษียณ (%)", 0.0, 10.0, 5.0, 0.1) / 100  # Divide by 100 for calculation
+years_final_return = st.sidebar.slider("ปรับพอร์ตการลงทุนก่อนเกษียณกี่ปี: ระยะใกล้เกษียณ (ปี)", 1, 20, 5, 1)
+annualized_return_post = st.sidebar.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะหลังเกษียณ (%)", 0.0, 20.0, 3.5, 0.1) / 100  # Divide by 100 for calculation
 
 # Run Simulation
-fig, df = retirement_simulation(
+fig, df, retire_fund = retirement_simulation(
     current_age=current_age, 
     retirement_age=retirement_age, 
     life_expectancy=life_expectancy,
@@ -156,21 +178,24 @@ fig, df = retirement_simulation(
     annualized_return_pre=annualized_return_pre,
     annualized_return_final_years=annualized_return_final_years,
     years_final_return=years_final_return,
-    annualized_return_post=annualized_return_post
+    annualized_return_post=annualized_return_post,
+    health_insurance_expense = health_insurance_expense,
+    health_risk_expense = health_risk_expense,
+    etc_expense = etc_expense
 )
 
 # Check if a retirement plan is successful
 final_fund_balance = df.iloc[-1]['Fund Balance']
 if final_fund_balance > 0:
     status = "แผนเกษียณ เป็นไปได้ ✅"
-    recommendation = (f"เงินทุนเกษียณของคุณมากพอต่อค่าใช้จ่ายหลังเกษียณ รวมเงินเฟ้อ {inflation_rate*100:.1f}% ต่อปีจนสิ้นอายุขัย"
-                        f"และมีมรดกหลังสิ้นอายุขัย: ฿{final_fund_balance:,.0f}")
+    recommendation = (f"เงินทุนเกษียณของคุณเท่ากับ <b>฿{retire_fund:,.0f}</b> ซึ่งมากพอต่อค่าใช้จ่ายต่าง ๆ หลังเกษียณ รวมเงินเฟ้อ <b>{inflation_rate*100:.1f}%</b> ต่อปีจนสิ้นอายุขัย"
+                        f"และมีมรดกหลังสิ้นอายุขัย: <b>฿{final_fund_balance:,.0f}</b>")
     box_color = "#D4EDDA"  # Green box color for success
     text_color = "#155724"  # Dark green text for success
 else:
     status = "เงินทุนเกษียณ ไม่เพียงพอ ❌"
     recommendation = (
-        f"เงินทุนเกษียณของคุณไม่พอต่อค่าใช้จ่ายหลังเกษียณ รวมเงินเฟ้อ {inflation_rate*100:.1f}% ต่อปีจนสิ้นอายุขัย"
+        f"เงินทุนเกษียณของคุณไม่พอต่อค่าใช้จ่ายหลังเกษียณ รวมเงินเฟ้อ <b>{inflation_rate*100:.1f}%</b> ต่อปีจนสิ้นอายุขัย"
         "คุณอาจต้อง เพิ่มจำนวนเงินลงทุนต่อปี หรือ เพิ่มผลตอบแทนคาดหวังต่อปี"
         "หรือ ยืดอายุเกษียณของคุณ เพื่อให้ทุนเกษียณเพียงพอต่อค่าใช้จ่ายหลังเกษียณของคุณ"
     )
@@ -183,27 +208,52 @@ st.plotly_chart(fig, use_column_width=True)  # Set use_column_width=True for res
 # Apply HTML styling with the correct box color
 st.markdown(f"""
     <div style="background-color:{box_color}; padding: 15px; border-radius: 5px;">
-        <h3 style="color:{text_color};">Retirement Plan Status: <strong>{status}</strong></h3>
+        <h3 style="color:{text_color};"<strong>{status}</strong></h3>
         <p style="color:{text_color};">{recommendation}</p>
     </div>
 """, unsafe_allow_html=True)
 
-# Display Summary with colored box around the status and recommendation
+# Display Summary with Columns for Better Layout
 st.header("สรุปข้อมูล แผนเกษียณของคุณ")
 
-# Show the parameter values with percentages correctly formatted
-st.markdown(f"""
-- **อายุปัจจุบัน:** {current_age} ปี
-- **อายุเกษียณ:** {retirement_age} ปี
-- **อายุขัย:** {life_expectancy} ปี
-- **เงินทุนตั้งต้น:** ฿{starting_principal:,.0f}
-- **เงินลงทุนเพิ่มต่อเดือน:** ฿{annual_contribution/12:,.0f}
-- **ค่าใช้จ่ายหลังเกษียณต่อเดือน มูลค่าปัจจุบัน ไม่รวมเงินเฟ้อ:** ฿{retire_monthly_expense_no_inflation:,.0f}
-- **เงินเฟ้อ:** {inflation_rate * 100:.1f}% ต่อปี
-- **ผลตอบแทนคาดหวังเฉลี่ยต่อปี (ระยะสะสม):** {annualized_return_pre * 100:.1f}%
-- **ผลตอบแทนคาดหวังเฉลี่ยต่อปี (ระยะใกล้เกษียณ):** {annualized_return_final_years * 100:.1f}%
-- **เตรียมพร้อมก่อนเกษียณกี่ปี  (ระยะใกล้เกษียณ):** {years_final_return} ปี
-- **ผลตอบแทนคาดหวังเฉลี่ยต่อปี (ระยะหลังเกษียณ):** {annualized_return_post * 100:.1f}%
-""")
+# Create two columns for better layout
+col1, col2 = st.columns(2)
 
-st.markdown(f"""*หมายเหตุ: เครื่องมือชุดนี้จะยังไม่ได้ลงรายละเอียดในส่วนของการถอนเงินทุนเกษียณหลังวัยเกษียณ หากท่านใดมีไอเดียดี ๆ อยากส่งให้ทีมงานปรับปรุงและพัฒนาสามารถทักเข้ามาได้ที่ isarawealth@gmail.com ได้เลยครับ""")
+# Column 1: Personal and Retirement Info
+with col1:
+    st.subheader("ข้อมูลส่วนตัว")
+    st.markdown(f"""
+    - อายุปัจจุบัน: {current_age} ปี  
+    - อายุเกษียณ: {retirement_age} ปี  
+    - อายุขัย: {life_expectancy} ปี  
+    """)
+    
+    st.subheader("ค่าใช้จ่ายหลังเกษียณ")
+    st.markdown(f"""
+    - [NEED] ค่าใช้จ่ายจำเป็นต่อเดือน: **฿{need_expense:,.0f}**
+    - [WANT] ค่าใช้จ่ายพิเศษต่อเดือน: **฿{want_expense:,.0f}**
+    - [HEALTH] เบี้ยประกันสุขภาพ: **฿{health_insurance_expense:,.0f}**
+    - [HEALTH] ทุนค่ารักษาพยาบาล: **฿{health_risk_expense:,.0f}**
+    - [ETC.] ค่าใช้จ่ายพิเศษอื่น ๆ: **฿{etc_expense:,.0f}**
+    """)
+
+# Column 2: Expenses and Returns
+with col2:
+    st.subheader("เงินทุนตั้งต้นและการลงทุน")
+    st.markdown(f"""
+    - เงินทุนตั้งต้น: **฿{starting_principal:,.0f}**
+    - เงินลงทุนเพิ่มต่อเดือน: **฿{annual_contribution / 12:,.0f}**
+    - เงินทุนเกษียณ: **฿{retire_fund:,.0f}**
+    """)
+
+    st.subheader("เงินเฟ้อ และผลตอบแทน")
+    st.markdown(f"""
+    - เงินเฟ้อ: **{inflation_rate * 100:.1f}%** ต่อปี  
+    - ผลตอบแทนคาดหวัง (ระยะสะสม): **{annualized_return_pre * 100:.1f}%**
+    - ผลตอบแทนคาดหวัง (ระยะใกล้เกษียณ): **{annualized_return_final_years * 100:.1f}%**
+    - ระยะปรับพอร์ตการลงทุนก่อนเกษียณ: **{years_final_return}** ปี
+    - ผลตอบแทนคาดหวัง (ระยะหลังเกษียณ): **{annualized_return_post * 100:.1f}%**  
+    """)
+
+st.markdown(f"""*หมายเหตุ: เครื่องมือชิ้นนี้จะเน้นวางแผนการเกษียณในระยะสะสม แต่จะยังไม่ได้ลงรายละเอียดในส่วนการวางแผนการลงทุนหลังวัยเกษียณ ซึ่งจะมีรายละเอียดเพิ่มเติมมากกว่านี้ 
+            และหากท่านใดมีไอเดียดี ๆ อยากส่งให้ทีมงานปรับปรุงและพัฒนาสามารถทักเข้ามาได้ที่ isarawealth@gmail.com ได้เลยครับ""")
