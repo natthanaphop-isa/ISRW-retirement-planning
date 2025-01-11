@@ -249,11 +249,15 @@ with col2:
 st.markdown(f"""*หมายเหตุ: เครื่องมือชิ้นนี้จะเน้นวางแผนการเกษียณในระยะสะสม แต่จะยังไม่ได้ลงรายละเอียดในส่วนการวางแผนการลงทุนหลังวัยเกษียณ ซึ่งจะมีรายละเอียดเพิ่มเติมมากกว่านี้ 
             และหากท่านใดมีไอเดียดี ๆ อยากส่งให้ทีมงานปรับปรุงและพัฒนาสามารถทักเข้ามาได้ที่ isarawealth@gmail.com ได้เลยครับ""")
 
+box_color = "#3c3c3c"
+
 st.markdown(f"""
-จัดทำโดย **นพ.ณัฐธนภพ อิศรเดช (หมอเฟ้น)**
-- แพทย์ และนักวิจัย: Machine Learning, Clinical NLP, Clinical Epidemiology
-- เจ้าของบล็อก www.isarawealth.com
-- IP License No. 132355 ใบอนุญาตผู้วางแผนการลงทุน โดย กลต.
-- ที่ปรึกษาทางการเงิน บลน. Finnomena
-- ตัวแทนประกันชีวิตและ Unitlink AIA รหัส 692246
-""")
+    <div style="background-color:{box_color}; padding: 15px; border-radius: 5px;">
+    จัดทำโดย **นพ.ณัฐธนภพ อิศรเดช (หมอเฟ้น)**
+    - แพทย์ และนักวิจัย: Machine Learning, Clinical NLP, Clinical Epidemiology
+    - เจ้าของบล็อก www.isarawealth.com
+    - IP License No. 132355 ใบอนุญาตผู้วางแผนการลงทุน โดย กลต.
+    - ที่ปรึกษาทางการเงิน บลน. Finnomena
+    - ตัวแทนประกันชีวิตและ Unitlink AIA รหัส 692246
+    </div>
+""", unsafe_allow_html=True)
