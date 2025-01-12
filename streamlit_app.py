@@ -62,6 +62,7 @@ def retirement_simulation(
             cumulative_expense[i] = cumulative_expense[i-1] + annual_withdrawal
             # If fund depletes, stop the calculation
             if fund_balance[i] < 0:
+                zero_age = age
                 fund_balance[i:] = 0
                 cumulative_expense[i:] = cumulative_expense[i-1]
                 break
@@ -186,7 +187,7 @@ if final_fund_balance > 0:
 else:
     status = "เงินทุนเกษียณ ไม่เพียงพอ ❌"
     recommendation = (
-        f"เงินทุนเกษียณของคุณไม่พอต่อค่าใช้จ่ายหลังเกษียณ รวมเงินเฟ้อ <b>{inflation_rate*100:.1f}%</b> ต่อปีจนสิ้นอายุขัย"
+        f"เงินทุนเกษียณของคุณหมดตอนอายุ {zero_age} ปี ซึ่งไม่พอต่อค่าใช้จ่ายหลังเกษียณ รวมเงินเฟ้อ <b>{inflation_rate*100:.1f}%</b> ต่อปีจนสิ้นอายุขัย"
         "คุณอาจต้อง เพิ่มจำนวนเงินลงทุนต่อปี หรือ เพิ่มผลตอบแทนคาดหวังต่อปี"
         "หรือ ยืดอายุเกษียณของคุณ เพื่อให้ทุนเกษียณเพียงพอต่อค่าใช้จ่ายหลังเกษียณของคุณ"
     )
