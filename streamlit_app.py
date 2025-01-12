@@ -31,7 +31,6 @@ def retirement_simulation(
     fund_balance[0] = starting_principal
     yearly_health_expense = health_insurance_expense / years_post_retirement if years_post_retirement > 0 else 0
     etc_expense = etc_expense * ((1 + inflation_rate)**years_to_retirement)
-    zero_age = []
     for i, age in enumerate(age_range[1:], start=1):
         if age < retirement_age - years_final_return:
             # Early pre-retirement: add contributions and apply initial pre-retirement return
@@ -62,12 +61,10 @@ def retirement_simulation(
             cumulative_expense[i] = cumulative_expense[i-1] + annual_withdrawal
             # If fund depletes, stop the calculation
             if fund_balance[i] < 0:
-                zero_age.append(age)
+                zero_age = age
                 fund_balance[i:] = 0
                 cumulative_expense[i:] = cumulative_expense[i-1]
                 break
-                
-    zero_age = zero_age[0]
     
     df = pd.DataFrame({
         'Age': age_range,
