@@ -119,7 +119,7 @@ def retirement_simulation(
         margin=dict(b=120)  # Increase bottom margin for more space
     )
 
-    return fig, df, retire_fund
+    return fig, df, retire_fund, zero_age
 
 # Streamlit App Layout
 st.title("Retirement Planning by Isara Wealth")
@@ -159,7 +159,7 @@ years_final_return = st.slider("ปรับพอร์ตการลงทุ
 annualized_return_post = st.slider("ผลตอบแทนคาดหวังเฉลี่ยต่อปี: ระยะหลังเกษียณ (%)", 0.0, 20.0, 3.5, 0.1) / 100  # Divide by 100 for calculation
 
 # Run Simulation
-fig, df, retire_fund = retirement_simulation(
+fig, df, retire_fund, zero_age = retirement_simulation(
     current_age=current_age, 
     retirement_age=retirement_age, 
     life_expectancy=life_expectancy,
