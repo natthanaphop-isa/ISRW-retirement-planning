@@ -31,6 +31,8 @@ def retirement_simulation(
     fund_balance[0] = starting_principal
     yearly_health_expense = health_insurance_expense / years_post_retirement if years_post_retirement > 0 else 0
     etc_expense = etc_expense * ((1 + inflation_rate)**years_to_retirement)
+    zero_age = 0
+    
     for i, age in enumerate(age_range[1:], start=1):
         if age < retirement_age - years_final_return:
             # Early pre-retirement: add contributions and apply initial pre-retirement return
