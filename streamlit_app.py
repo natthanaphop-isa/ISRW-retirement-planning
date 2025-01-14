@@ -68,11 +68,11 @@ def retirement_simulation(
                 fund_balance[i:] = 0
                 cumulative_expense[i:] = cumulative_expense[i-1]
                 break
-    
+                
     df = pd.DataFrame({
         'Age': age_range,
-        'Fund Balance': fund_balance,
-        'Cumulative Expense': cumulative_expense
+        'Fund Balance': [x / 1e6 for x in fund_balance],  # Convert to million Baht
+        'Cumulative Expense': [x / 1e6 for x in cumulative_expense]  # Convert to million Baht
     })
     
     # Create interactive plot with Plotly
@@ -82,7 +82,7 @@ def retirement_simulation(
         y=df['Fund Balance'],
         mode='lines+markers',
         name='เงินทุนเกษียณ',
-        hovertemplate='อายุ: %{x}<br>เงินทุน: ฿%{y:,.0f}<extra></extra>'
+        hovertemplate='อายุ: %{x}<br>เงินทุน: ฿%{y:,.2f} ล้าน<extra></extra>'
     ))
     
     # Add line for cumulative expenses
@@ -91,24 +91,27 @@ def retirement_simulation(
         y=df['Cumulative Expense'],
         mode='lines+markers',
         name='รายจ่ายสะสม',
-        hovertemplate='อายุ: %{x}<br>รายจ่ายสะสม: ฿%{y:,.0f}<extra></extra>',
+        hovertemplate='อายุ: %{x}<br>รายจ่ายสะสม: ฿%{y:,.2f} ล้าน<extra></extra>',
         line=dict(dash='dash', color='red')
     ))
-
+    
     # Add vertical lines for key milestones
-    fig.add_vline(x=retirement_age - years_final_return, line=dict(color='orange', dash='dash'), 
+    fig.add_vline(x=retirement_age - years_final_return, 
+                  line=dict(color='orange', dash='dash'), 
                   annotation_text=f'{years_final_return} ปีสุดท้ายก่อนเกษียณ', annotation_position="top left")
-    fig.add_vline(x=retirement_age, line=dict(color='green', dash='dash'), 
+    fig.add_vline(x=retirement_age, 
+                  line=dict(color='green', dash='dash'), 
                   annotation_text='อายุเกษียณ', annotation_position="top right")
-    fig.add_vline(x=life_expectancy, line=dict(color='black', dash='dash'), 
+    fig.add_vline(x=life_expectancy, 
+                  line=dict(color='black', dash='dash'), 
                   annotation_text='อายุขัย', annotation_position="top right")
-
+    
     # Update layout with hovermode set to 'x unified' and auto-size enabled
     fig.update_layout(
         title='กราฟแสดงแผนการเกษียณ',
         xaxis_title='อายุ (ปี)',
-        yaxis_title='จำนวนเงิน (฿)',
-        yaxis_tickformat=',',
+        yaxis_title='จำนวนเงิน (ล้านบาท)',
+        yaxis_tickformat=',',  # Format Y-axis ticks with commas
         hovermode='x unified',  # Show all values on the same x-axis when hovering
         autosize=True,  # Make the graph resize automatically
         legend=dict(
@@ -122,6 +125,10 @@ def retirement_simulation(
     )
     fig.layout.xaxis.fixedrange = True
     fig.layout.yaxis.fixedrange = True
+    
+    # Display the graph
+    fig.show()
+
 
     return fig, df, retire_fund, zero_age
 
