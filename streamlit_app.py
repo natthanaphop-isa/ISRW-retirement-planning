@@ -139,7 +139,7 @@ st.image("assets/retirement_planning.jpg", use_container_width=True)
 
 # Inputs
 st.header("กรอกข้อมูล")
-current_age = st.slider("อายุปัจจุบัน (ปี)", 1, 50, 27, 1)
+current_age = st.slider("อายุปัจจุบัน (ปี)", 15, 50, 27, 1)
 retirement_age = st.slider("อายุเกษียณ (ปี)", 30, 75, 65, 1)
 life_expectancy = st.slider("อายุขัย (ปี)", 50, 100, 85, 1)
 starting_principal = st.number_input("เงินทุนตั้งต้น (฿)", 0, 10000000, 100000, 10000)
