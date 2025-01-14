@@ -32,6 +32,7 @@ def retirement_simulation(
     yearly_health_expense = health_insurance_expense / years_post_retirement if years_post_retirement > 0 else 0
     etc_expense = etc_expense * ((1 + inflation_rate)**years_to_retirement)
     zero_age = 0
+    retire_fund = []
     
     for i, age in enumerate(age_range[1:], start=1):
         # annual_contribution = annual_contribution * ((1 + aContribution_rate)**i)
@@ -43,7 +44,7 @@ def retirement_simulation(
             fund_balance[i] = (fund_balance[i-1] + annual_contribution) * (1 + annualized_return_final_years)
         elif age == retirement_age:
             fund_balance[i] = (fund_balance[i-1] + annual_contribution) * (1 + annualized_return_final_years)
-            retire_fund = fund_balance[i]
+            retire_fund.append(fund_balance[i])
         elif age == (retirement_age + 1):
             # Include one-time expenses in the withdrawal for the retirement year
             annual_withdrawal = (
@@ -197,7 +198,7 @@ fig, df, retire_fund, zero_age = retirement_simulation(
 final_fund_balance = df.iloc[-1]['Fund Balance']
 if final_fund_balance > 0:
     status = "แผนเกษียณ เป็นไปได้ ✅"
-    recommendation = (f"เงินทุนเกษียณของคุณเท่ากับ <b>฿{retire_fund:,.0f}</b> ซึ่งมากพอต่อค่าใช้จ่ายต่าง ๆ หลังเกษียณ รวมเงินเฟ้อ <b>{inflation_rate*100:.1f}%</b> ต่อปีจนสิ้นอายุขัย"
+    recommendation = (f"เงินทุนเกษียณของคุณเท่ากับ <b>฿{retire_fund[0]:,.0f}</b> ซึ่งมากพอต่อค่าใช้จ่ายต่าง ๆ หลังเกษียณ รวมเงินเฟ้อ <b>{inflation_rate*100:.1f}%</b> ต่อปีจนสิ้นอายุขัย"
                         f"และมีมรดกหลังสิ้นอายุขัย: <b>฿{final_fund_balance:,.0f}</b>")
     box_color = "#D4EDDA"  # Green box color for success
     text_color = "#155724"  # Dark green text for success
