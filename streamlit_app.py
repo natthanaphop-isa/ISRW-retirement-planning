@@ -162,7 +162,7 @@ else:
     
 selection2 = st.toggle("คำนวนค่าใช้จ่ายพิเศษอื่น ๆ ที่ต้องใช้เงินก้อน ณ วันเกษียณ")
 if selection2: 
-    etc_expense = st.number_input("[ETC.] ค่าใช้จ่ายพิเศษอื่น ๆ ที่ต้องใช้เงินก้อน ณ วันเกษียณ", 0, 10000000, 300000, 100000)
+    etc_expense = st.number_input("[EXTRA] ค่าใช้จ่ายพิเศษอื่น ๆ ที่ต้องใช้เงินก้อน ณ วันเกษียณ", 0, 10000000, 300000, 100000)
 else:
     etc_expense = 0
 
@@ -244,7 +244,7 @@ with col1:
     - [WANT] ค่าใช้จ่ายพิเศษต่อเดือน หลังเกษียณ: **฿{want_expense:,.0f}**
     - [HEALTH] เบี้ยประกันสุขภาพ หลังเกษียณ: **฿{health_insurance_expense:,.0f}**
     - [HEALTH] ทุนค่าใช้จ่ายอื่น ๆ ด้านสุขภาพ หลังเกษียณ: **฿{health_risk_expense:,.0f}**
-    - [ETC.] ค่าใช้จ่ายพิเศษอื่น ๆ: **฿{etc_expense:,.0f}**
+    - [EXTRA] ค่าใช้จ่ายพิเศษอื่น ๆ: **฿{etc_expense:,.0f}**
     """)
 
 # Column 2: Expenses and Returns
