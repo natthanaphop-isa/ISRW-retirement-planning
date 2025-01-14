@@ -233,9 +233,9 @@ col1, col2 = st.columns(2)
 with col1:
     st.subheader("ข้อมูลส่วนตัว")
     st.markdown(f"""
-    - อายุปัจจุบัน: {current_age} ปี  
-    - อายุเกษียณ: {retirement_age} ปี  
-    - อายุขัย: {life_expectancy} ปี  
+    - อายุปัจจุบัน: **{current_age} ปี** 
+    - อายุเกษียณ: **{retirement_age} ปี** 
+    - อายุขัย: **{life_expectancy} ปี**  
     """)
     
     st.subheader("ค่าใช้จ่ายหลังเกษียณ")
