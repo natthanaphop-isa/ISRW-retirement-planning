@@ -68,7 +68,7 @@ def retirement_simulation(
                 fund_balance[i:] = 0
                 cumulative_expense[i:] = cumulative_expense[i-1]
                 break
-                
+    
     df = pd.DataFrame({
         'Age': age_range,
         'Fund Balance': [x / 1e6 for x in fund_balance],  # Convert to million Baht
@@ -82,7 +82,7 @@ def retirement_simulation(
         y=df['Fund Balance'],
         mode='lines+markers',
         name='เงินทุนเกษียณ',
-        hovertemplate='อายุ: %{x}<br>เงินทุน: ฿%{y:,.2f} ล้าน<extra></extra>'
+        hovertemplate='อายุ: %{x}<br>เงินทุน: %{y:,.2f} ล้านบาท<extra></extra>'
     ))
     
     # Add line for cumulative expenses
@@ -91,7 +91,7 @@ def retirement_simulation(
         y=df['Cumulative Expense'],
         mode='lines+markers',
         name='รายจ่ายสะสม',
-        hovertemplate='อายุ: %{x}<br>รายจ่ายสะสม: ฿%{y:,.2f} ล้าน<extra></extra>',
+        hovertemplate='อายุ: %{x}<br>รายจ่ายสะสม: %{y:,.2f} ล้านบาท<extra></extra>',
         line=dict(dash='dash', color='red')
     ))
     
