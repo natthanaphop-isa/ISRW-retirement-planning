@@ -18,8 +18,7 @@ def retirement_simulation(
     annualized_return_post,
     etc_expense,
     health_insurance_expense,
-    health_risk_expense,
-    aContribution_rate
+    health_risk_expense
 ):
     years_to_retirement = retirement_age - current_age
     years_post_retirement = life_expectancy - retirement_age
@@ -35,7 +34,7 @@ def retirement_simulation(
     zero_age = 0
     
     for i, age in enumerate(age_range[1:], start=1):
-        annual_contribution = annual_contribution * ((1 + aContribution_rate)**i)
+        # annual_contribution = annual_contribution * ((1 + aContribution_rate)**i)
         if age < retirement_age - years_final_return:
             # Early pre-retirement: add contributions and apply initial pre-retirement return
             fund_balance[i] = (fund_balance[i-1] + annual_contribution) * (1 + annualized_return_pre)
@@ -137,11 +136,11 @@ retirement_age = st.slider("อายุเกษียณ (ปี)", 30, 75, 65
 life_expectancy = st.slider("อายุขัย (ปี)", 50, 100, 85, 1)
 starting_principal = st.number_input("เงินทุนตั้งต้น (฿)", 0, 10000000, 100000, 10000)
 annual_contribution = st.number_input("เงินลงทุนเพิ่มต่อเดือน (฿)", 0, 1000000, 20000, 1000)*12
-selection0 = st.toggle("ต้องการเพิ่มการเติบโตของเงินออมเพื่อการลงทุนในแต่ละปีหรือไม่?")
-if selection0: 
-    aContribution_rate = st.slider("อัตราการเติบโตของเงินออมเพื่อการลงทุนต่อปี (%)", 0.0, 10.0, 3.5, 0.1) / 100
-else:
-    aContribution_rate = 0
+# selection0 = st.toggle("ต้องการเพิ่มการเติบโตของเงินออมเพื่อการลงทุนในแต่ละปีหรือไม่?")
+# if selection0: 
+#     aContribution_rate = st.slider("อัตราการเติบโตของเงินออมเพื่อการลงทุนต่อปี (%)", 0.0, 10.0, 3.5, 0.1) / 100
+# else:
+#     aContribution_rate = 0
     
 need_expense = st.number_input("[NEED] ค่าใช้จ่ายจำเป็นหลังเกษียณต่อเดือน มูลค่าปัจจุบัน ไม่รวมเงินเฟ้อ (฿)", 0, 10000000, 20000, 1000)
 want_expense = st.number_input("[WANT] ค่าใช้จ่าพิเศษหลังเกษียณต่อเดือน มูลค่าปัจจุบัน ไม่รวมเงินเฟ้อ (฿)", 0, 10000000, 20000, 1000)
@@ -184,8 +183,7 @@ fig, df, retire_fund, zero_age = retirement_simulation(
     annualized_return_post=annualized_return_post,
     health_insurance_expense = health_insurance_expense,
     health_risk_expense = health_risk_expense,
-    etc_expense = etc_expense,
-    aContribution_rate = aContribution_rate
+    etc_expense = etc_expense
 )
 
 # Check if a retirement plan is successful
