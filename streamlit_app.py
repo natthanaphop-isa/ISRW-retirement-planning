@@ -138,7 +138,7 @@ life_expectancy = st.slider("อายุขัย (ปี)", 50, 100, 85, 1)
 starting_principal = st.number_input("เงินทุนตั้งต้น (฿)", 0, 10000000, 100000, 10000)
 annual_contribution = st.number_input("เงินลงทุนเพิ่มต่อเดือน (฿)", 0, 1000000, 20000, 1000)*12
 selection0 = st.toggle("ต้องการเพิ่มการเติบโตของเงินออมเพื่อการลงทุนในแต่ละปีหรือไม่?")
-if selection1: 
+if selection0: 
     aContribution_rate = st.slider("อัตราการเติบโตของเงินออมเพื่อการลงทุนต่อปี (%)", 0.0, 10.0, 3.5, 0.1) / 100
 else:
     aContribution_rate = 0
