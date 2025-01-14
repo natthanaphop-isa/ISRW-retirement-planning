@@ -99,7 +99,7 @@ def retirement_simulation(
                   annotation_text=f'{years_final_return} ปีสุดท้ายก่อนเกษียณ', annotation_position="top left")
     fig.add_vline(x=retirement_age, line=dict(color='green', dash='dash'), 
                   annotation_text='อายุเกษียณ', annotation_position="top right")
-    fig.add_vline(x=life_expectancy, line=dict(color='blue', dash='dash'), 
+    fig.add_vline(x=life_expectancy, line=dict(color='black', dash='dash'), 
                   annotation_text='อายุขัย', annotation_position="top right")
 
     # Update layout with hovermode set to 'x unified' and auto-size enabled
