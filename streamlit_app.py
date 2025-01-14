@@ -195,7 +195,7 @@ fig, df, retire_fund, zero_age = retirement_simulation(
 )
 
 # Check if a retirement plan is successful
-final_fund_balance = df.iloc[-1]['Fund Balance']
+final_fund_balance = df.iloc[-1]['Fund Balance'] * 1e6
 if final_fund_balance > 0:
     status = "แผนเกษียณ เป็นไปได้ ✅"
     recommendation = (f"เงินทุนเกษียณของคุณเท่ากับ <b>฿{retire_fund[0]:,.0f}</b> ซึ่งมากพอต่อค่าใช้จ่ายต่าง ๆ หลังเกษียณ รวมเงินเฟ้อ <b>{inflation_rate*100:.1f}%</b> ต่อปีจนสิ้นอายุขัย"
