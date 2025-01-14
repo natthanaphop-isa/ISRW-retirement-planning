@@ -119,6 +119,8 @@ def retirement_simulation(
         ),
         margin=dict(b=120)  # Increase bottom margin for more space
     )
+    fig.layout.xaxis.fixedrange = True
+    fig.layout.yaxis.fixedrange = True
 
     return fig, df, retire_fund, zero_age
 
