@@ -126,7 +126,7 @@ def retirement_simulation(
     return fig, df, retire_fund, zero_age
 
 # Streamlit App Layout
-st.title("Retirement Planning by Isara Wealth")
+# st.title("Retirement Planning by Isara Wealth")
 st.image("assets/retirement_planning.jpg", use_container_width=True)
 
 # Inputs
