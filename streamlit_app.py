@@ -35,7 +35,7 @@ def retirement_simulation(
     zero_age = 0
     
     for i, age in enumerate(age_range[1:], start=1):
-        annual_contribution = annual_contribution * (1 + aContribution_rate)**i
+        annual_contribution = annual_contribution * ((1 + aContribution_rate)**i)
         if age < retirement_age - years_final_return:
             # Early pre-retirement: add contributions and apply initial pre-retirement return
             fund_balance[i] = (fund_balance[i-1] + annual_contribution) * (1 + annualized_return_pre)
