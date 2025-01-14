@@ -253,7 +253,7 @@ with col2:
     st.markdown(f"""
     - เงินทุนตั้งต้น: **฿{starting_principal:,.0f}**
     - เงินลงทุนเพิ่มต่อเดือน: **฿{annual_contribution / 12:,.0f}**
-    - เงินทุนเกษียณ: **฿{retire_fund:,.0f}**
+    - เงินทุนเกษียณ: **฿{retire_fund[0]:,.0f}**
     """)
 
     st.subheader("เงินเฟ้อ และผลตอบแทน")
