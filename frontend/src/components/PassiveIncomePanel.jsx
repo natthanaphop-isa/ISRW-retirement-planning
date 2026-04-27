@@ -1,6 +1,7 @@
 import React from 'react';
 import { Plus, Trash2 } from 'lucide-react';
 import { formatTHB } from '../utils/formatters';
+import FormattedInput from './FormattedInput';
 
 const PassiveIncomePanel = ({ inputs, update, lang, t }) => {
   const addAsset = () => {
@@ -80,7 +81,7 @@ const PassiveIncomePanel = ({ inputs, update, lang, t }) => {
               <div className="space-y-2">
                 <div>
                   <label className="block text-xs text-gray-600 mb-1">{t.income_today}</label>
-                  <input type="number" min="0" className="input-base text-xs py-1" value={asset.monthly_income_today} onChange={(e) => updateAsset(idx, 'monthly_income_today', parseFloat(e.target.value) || 0)} />
+                  <FormattedInput className="input-base text-xs py-1" value={asset.monthly_income_today} onChange={(val) => updateAsset(idx, 'monthly_income_today', val)} />
                 </div>
 
                 <div>
@@ -105,18 +106,18 @@ const PassiveIncomePanel = ({ inputs, update, lang, t }) => {
                 <div className="grid grid-cols-2 gap-2 mt-2 pt-2 border-t border-gray-200">
                   <div>
                     <label className="block text-[10px] text-gray-500 mb-1">{t.monthly_cost}</label>
-                    <input type="number" min="0" className="input-base text-xs py-1" value={asset.monthly_cost_today} onChange={(e) => updateAsset(idx, 'monthly_cost_today', parseFloat(e.target.value) || 0)} />
+                    <FormattedInput className="input-base text-xs py-1" value={asset.monthly_cost_today} onChange={(val) => updateAsset(idx, 'monthly_cost_today', val)} />
                   </div>
                   <div>
                     <label className="block text-[10px] text-gray-500 mb-1">{t.lump_sum_cost}</label>
-                    <input type="number" min="0" className="input-base text-xs py-1" value={asset.lump_sum_cost_at_retirement} onChange={(e) => updateAsset(idx, 'lump_sum_cost_at_retirement', parseFloat(e.target.value) || 0)} />
+                    <FormattedInput className="input-base text-xs py-1" value={asset.lump_sum_cost_at_retirement} onChange={(val) => updateAsset(idx, 'lump_sum_cost_at_retirement', val)} />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2">
                   <div>
                     <label className="block text-[10px] text-gray-500 mb-1">{t.asset_value}</label>
-                    <input type="number" min="0" className="input-base text-xs py-1" value={asset.current_asset_value} onChange={(e) => updateAsset(idx, 'current_asset_value', parseFloat(e.target.value) || 0)} />
+                    <FormattedInput className="input-base text-xs py-1" value={asset.current_asset_value} onChange={(val) => updateAsset(idx, 'current_asset_value', val)} />
                   </div>
                   <div>
                      <label className="flex items-center mt-4 space-x-1">

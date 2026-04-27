@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:plugin": "vite build && rm -rf ../wordpress-plugin/dist && cp -R dist ../wordpress-plugin/ && cd ../wordpress-plugin && zip -r retirement-planner.zip retirement-planner.php dist"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.2.4",

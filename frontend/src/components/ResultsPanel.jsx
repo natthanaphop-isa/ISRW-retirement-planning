@@ -20,35 +20,49 @@ const ResultsPanel = ({ inputs, results, loading, error, lang }) => {
   }
 
   const { deterministic, monte_carlo, passive_income_summary } = results;
-  const successRate = monte_carlo.success_rate;
   
-  let badgeColor = "bg-danger-bg text-danger";
+  let badgeColor = "bg-danger-bg";
   let badgeText = `🔴 ${t.fail}`;
-  if (successRate >= 80) {
-    badgeColor = "bg-success-bg text-success";
-    badgeText = `🟢 ${t.success}`;
-  } else if (successRate >= 50) {
-    badgeColor = "bg-warning-bg text-warning";
-    badgeText = `🟡 ${t.risk}`;
+  let subText = "";
+
+  if (monte_carlo) {
+    const successRate = monte_carlo.success_rate;
+    if (successRate >= 80) {
+      badgeColor = "bg-success-bg";
+      badgeText = `🟢 ${t.success}`;
+    } else if (successRate >= 50) {
+      badgeColor = "bg-warning-bg";
+      badgeText = `🟡 ${t.risk}`;
+    }
+    subText = `${t.chance_of_success}: ${successRate.toFixed(1)}% (${t.from_sims})`;
+  } else {
+    if (deterministic.success) {
+      badgeColor = "bg-success-bg";
+      badgeText = `🟢 ${t.success}`;
+    }
+    subText = deterministic.success ? "มีความเป็นไปได้สูงที่เงินจะพอใช้ (จากแผนแบบปกติ)" : "มีความเสี่ยงที่เงินจะไม่พอใช้ (จากแผนแบบปกติ)";
   }
 
   const fiAge = deterministic.financial_independence_age;
 
   const combinedData = deterministic.yearly_data.map((detItem, idx) => {
-    return {
-      ...detItem,
-      p50: monte_carlo.percentile_paths.p50[idx],
-      p25_p75: [monte_carlo.percentile_paths.p25[idx], monte_carlo.percentile_paths.p75[idx]],
-      p10_p90: [monte_carlo.percentile_paths.p10[idx], monte_carlo.percentile_paths.p90[idx]],
-    };
+    let mcItem = {};
+    if (monte_carlo && monte_carlo.percentile_paths) {
+      mcItem = {
+        p50: monte_carlo.percentile_paths.p50[idx],
+        p25_p75: [monte_carlo.percentile_paths.p25[idx], monte_carlo.percentile_paths.p75[idx]],
+        p10_p90: [monte_carlo.percentile_paths.p10[idx], monte_carlo.percentile_paths.p90[idx]],
+      };
+    }
+    return { ...detItem, ...mcItem };
   });
 
   return (
     <div className="space-y-6">
       {/* Status Badge */}
-      <div className={`rounded-xl p-6 shadow-sm border border-gray-100 ${badgeColor} transition-colors duration-300`}>
+      <div className={`rounded-xl p-6 shadow-sm border border-gray-100 ${badgeColor} transition-colors duration-300 text-slate-800`}>
         <h2 className="text-3xl font-bold mb-2">{t.plan_status}: {badgeText}</h2>
-        <p className="text-lg opacity-90">{t.chance_of_success}: {successRate.toFixed(1)}% ({t.from_sims})</p>
+        <p className="text-lg opacity-90">{subText}</p>
       </div>
 
       {fiAge && (
@@ -60,18 +74,33 @@ const ResultsPanel = ({ inputs, results, loading, error, lang }) => {
 
       {/* Metrics Grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        <div className="card p-4">
-          <p className="text-sm text-gray-500 mb-1">{t.metrics_corpus}</p>
-          <p className="text-xl font-bold text-gray-800">{formatCompactTHB(monte_carlo.retirement_corpus.p50)}</p>
-        </div>
-        <div className="card p-4">
-          <p className="text-sm text-gray-500 mb-1">{t.metrics_success}</p>
-          <p className="text-xl font-bold text-gray-800">{successRate.toFixed(1)}%</p>
-        </div>
-        <div className="card p-4">
-          <p className="text-sm text-gray-500 mb-1">{t.metrics_estate}</p>
-          <p className="text-xl font-bold text-gray-800">{formatCompactTHB(monte_carlo.final_estate.p50)}</p>
-        </div>
+        {monte_carlo ? (
+          <>
+            <div className="card p-4">
+              <p className="text-sm text-gray-500 mb-1">{t.metrics_corpus}</p>
+              <p className="text-xl font-bold text-blue-950">{formatCompactTHB(monte_carlo.retirement_corpus.p50)}</p>
+            </div>
+            <div className="card p-4">
+              <p className="text-sm text-gray-500 mb-1">{t.metrics_success}</p>
+              <p className="text-xl font-bold text-blue-950">{monte_carlo.success_rate.toFixed(1)}%</p>
+            </div>
+            <div className="card p-4">
+              <p className="text-sm text-gray-500 mb-1">{t.metrics_estate}</p>
+              <p className="text-xl font-bold text-blue-950">{formatCompactTHB(monte_carlo.final_estate.p50)}</p>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="card p-4">
+              <p className="text-sm text-gray-500 mb-1">{t.metrics_corpus}</p>
+              <p className="text-xl font-bold text-blue-950">{formatCompactTHB(deterministic.retirement_corpus)}</p>
+            </div>
+            <div className="card p-4">
+              <p className="text-sm text-gray-500 mb-1">{t.metrics_estate}</p>
+              <p className="text-xl font-bold text-blue-950">{formatCompactTHB(deterministic.final_portfolio_value)}</p>
+            </div>
+          </>
+        )}
         
         {passive_income_summary && (
           <>
@@ -91,7 +120,7 @@ const ResultsPanel = ({ inputs, results, loading, error, lang }) => {
             )}
             <div className="card p-4">
               <p className="text-sm text-gray-500 mb-1">{t.metrics_total_estate}</p>
-              <p className="text-xl font-bold text-gray-800">{formatCompactTHB(monte_carlo.total_estate_incl_assets.p50)}</p>
+              <p className="text-xl font-bold text-blue-950">{formatCompactTHB(monte_carlo ? monte_carlo.total_estate_incl_assets.p50 : deterministic.total_estate)}</p>
             </div>
           </>
         )}
@@ -99,7 +128,7 @@ const ResultsPanel = ({ inputs, results, loading, error, lang }) => {
 
       {/* Combined Chart */}
       <div className="card">
-        <h3 className="font-semibold text-lg mb-4 text-gray-800">{t.chart_det} & {t.chart_mc}</h3>
+        <h3 className="font-semibold text-lg mb-4 text-blue-950">{t.chart_det} {monte_carlo && `& ${t.chart_mc}`}</h3>
         <div className="h-80">
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart data={combinedData} margin={{ top: 30, right: 10, left: -20, bottom: 0 }}>
@@ -115,12 +144,14 @@ const ResultsPanel = ({ inputs, results, loading, error, lang }) => {
                 labelFormatter={(label) => `${t.age}: ${label}`}
               />
               <Legend wrapperStyle={{ paddingTop: '10px' }} />
-              <Area type="monotone" dataKey="p10_p90" fill="#3b82f6" fillOpacity={0.1} stroke="none" name="MC 10th-90th" />
-              <Area type="monotone" dataKey="p25_p75" fill="#3b82f6" fillOpacity={0.2} stroke="none" name="MC 25th-75th" />
-              <Line type="monotone" dataKey="p50" stroke="#3b82f6" strokeWidth={2} strokeDasharray="3 3" dot={false} name="MC Median" />
-              <Line type="monotone" dataKey="portfolio_value" name={t.portfolio_value} stroke="#16a34a" strokeWidth={3} dot={false} />
-              <Line type="monotone" dataKey="cumulative_expenses" name={t.cumulative_expenses} stroke="#ef4444" strokeWidth={2} strokeDasharray="5 5" dot={false} />
-              <ReferenceLine x={inputs.retirement_age} stroke="#10b981" strokeDasharray="3 3" label={{ position: 'top', value: t.retirement_age, fill: '#10b981', fontSize: 12, dy: -10 }} />
+              
+              {monte_carlo && <Area type="monotone" dataKey="p10_p90" fill="#0284c7" fillOpacity={0.1} stroke="none" name="MC 10th-90th" />}
+              {monte_carlo && <Area type="monotone" dataKey="p25_p75" fill="#0284c7" fillOpacity={0.2} stroke="none" name="MC 25th-75th" />}
+              {monte_carlo && <Line type="monotone" dataKey="p50" stroke="#0ea5e9" strokeWidth={2} strokeDasharray="3 3" dot={false} name="MC Median" />}
+              
+              <Line type="monotone" dataKey="portfolio_value" name={t.portfolio_value} stroke="#1e3a8a" strokeWidth={3} dot={false} />
+              <Line type="monotone" dataKey="cumulative_expenses" name={t.cumulative_expenses} stroke="#dc2626" strokeWidth={2} strokeDasharray="5 5" dot={false} />
+              <ReferenceLine x={inputs.retirement_age} stroke="#475569" strokeDasharray="3 3" label={{ position: 'top', value: t.retirement_age, fill: '#475569', fontSize: 12, dy: -10 }} />
               {fiAge && <ReferenceLine x={fiAge} stroke="#f59e0b" strokeDasharray="3 3" label={{ position: 'top', value: t.fi_age, fill: '#f59e0b', fontSize: 12, dy: -10 }} />}
             </ComposedChart>
           </ResponsiveContainer>

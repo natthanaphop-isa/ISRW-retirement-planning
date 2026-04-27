@@ -25,6 +25,7 @@ export const defaultInputs = {
   glide_path_years: 5,
   expected_return_post_retirement: 0.035,
   
+  enable_monte_carlo: true,
   n_simulations: 1000,
   sigma_accum: 0.10,
   sigma_near: 0.06,

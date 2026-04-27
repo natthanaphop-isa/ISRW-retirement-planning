@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import InputPanel from './components/InputPanel';
 import ResultsPanel from './components/ResultsPanel';
 import { defaultInputs } from './utils/constants';
+import { calculateDeterministic } from './utils/calculator';
+import { calculateMonteCarlo } from './utils/monteCarlo';
 
 function App() {
   const [lang, setLang] = useState('th');
@@ -10,28 +12,31 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const calculate = useCallback(async (currentInputs) => {
+  const calculate = useCallback((currentInputs) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('/api/calculate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(currentInputs),
-      });
-      
-      if (!response.ok) {
-        throw new Error('API Error');
-      }
-      
-      const data = await response.json();
-      setResults(data);
+      // Small timeout to allow UI to render loading state before heavy lifting
+      setTimeout(() => {
+        try {
+          const detResult = calculateDeterministic(currentInputs);
+          const mcResult = currentInputs.enable_monte_carlo ? calculateMonteCarlo(currentInputs) : null;
+          
+          setResults({
+            deterministic: detResult.deterministic,
+            passive_income_summary: detResult.passive_income_summary,
+            monte_carlo: mcResult
+          });
+        } catch(e) {
+          console.error(e);
+          setError('Calculation failed: ' + e.message);
+        } finally {
+          setLoading(false);
+        }
+      }, 50);
     } catch (err) {
       console.error(err);
-      setError('Failed to calculate. Is the backend running?');
-    } finally {
+      setError('Failed to calculate.');
       setLoading(false);
     }
   }, []);
