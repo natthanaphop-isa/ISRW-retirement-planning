@@ -73,6 +73,9 @@ const th = {
   age: "อายุ",
   fi_age: "🎯 Financial Independence",
   ruin: "เงินหมด",
+  summary_assumptions: "สรุปสมมติฐาน",
+  det_success_subtext: "มีความเป็นไปได้สูงที่เงินจะพอใช้ (จากแผนแบบปกติ)",
+  det_fail_subtext: "มีความเสี่ยงที่เงินจะไม่พอใช้ (จากแผนแบบปกติ)"
 };
 
 const en = {
@@ -150,6 +153,9 @@ const en = {
   age: "Age",
   fi_age: "🎯 Financial Independence",
   ruin: "Ruin",
+  summary_assumptions: "Summary of Assumptions",
+  det_success_subtext: "High probability that funds will be sufficient (Deterministic Plan)",
+  det_fail_subtext: "Risk of funds running out (Deterministic Plan)"
 };
 
 export const i18n = {

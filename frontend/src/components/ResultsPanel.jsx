@@ -46,7 +46,7 @@ const ResultsPanel = ({ inputs, results, loading, error, lang }) => {
       textColor = "text-success";
       badgeText = `✅ ${t.success}`;
     }
-    subText = deterministic.success ? "มีความเป็นไปได้สูงที่เงินจะพอใช้ (จากแผนแบบปกติ)" : "มีความเสี่ยงที่เงินจะไม่พอใช้ (จากแผนแบบปกติ)";
+    subText = deterministic.success ? t.det_success_subtext : t.det_fail_subtext;
   }
 
   const fiAge = deterministic.financial_independence_age;
@@ -165,7 +165,7 @@ const ResultsPanel = ({ inputs, results, loading, error, lang }) => {
       </div>
 
       <div className="card bg-gray-50">
-        <h3 className="font-semibold text-lg mb-4 text-gray-800">Summary of Assumptions</h3>
+        <h3 className="font-semibold text-lg mb-4 text-gray-800">{t.summary_assumptions}</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-y-4 gap-x-2 text-sm">
           <div>
             <p className="text-gray-500 text-xs">{t.current_age}</p>

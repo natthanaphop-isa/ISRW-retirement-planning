@@ -195,8 +195,11 @@ const InputPanel = ({ inputs, setInputs, lang, toggleLang }) => {
         </label>
         
         {inputs.enable_monte_carlo && (
-          <details className="mt-2">
-            <summary className="text-sm font-semibold text-gray-800 cursor-pointer">{t.advanced_mc}</summary>
+          <details className="group mt-2">
+            <summary className="text-sm font-semibold text-gray-800 cursor-pointer flex items-center justify-between p-2 bg-gray-50 border border-gray-200 rounded-md hover:bg-gray-100 transition-colors list-none">
+              <span>{t.advanced_mc}</span>
+              <span className="text-gray-500 group-open:rotate-180 transition-transform duration-200">▼</span>
+            </summary>
             <div className="pt-4 space-y-4 pl-2">
               <div>
                 <label className="flex justify-between text-xs text-gray-800 mb-1">
