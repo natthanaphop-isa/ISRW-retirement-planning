@@ -27,8 +27,10 @@ const ResultsPanel = ({ inputs, results, loading, error, lang }) => {
   let subText = "";
 
   if (monte_carlo) {
-    const successRate = monte_carlo.success_rate;
-    const cutoff = inputs.success_cutoff || 80;
+    const successRate = Number(monte_carlo.success_rate);
+    const cutoff = Number(inputs.success_cutoff) || 80;
+    
+    console.log('[Badge Debug] successRate:', successRate, 'cutoff:', cutoff, 'pass:', successRate >= cutoff);
     
     if (successRate >= cutoff) {
       badgeColor = "bg-success-bg";
@@ -39,7 +41,7 @@ const ResultsPanel = ({ inputs, results, loading, error, lang }) => {
       textColor = "text-warning";
       badgeText = `⚠️ ${t.risk}`;
     }
-    subText = `${t.chance_of_success}: ${successRate.toFixed(1)}% (${t.from_sims})`;
+    subText = `${t.chance_of_success}: ${successRate.toFixed(1)}% (${t.from_sims}) | ${t.success_cutoff}: ${cutoff}%`;
   } else {
     if (deterministic.success) {
       badgeColor = "bg-success-bg";
