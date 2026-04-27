@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import InputPanel from './components/InputPanel';
 import ResultsPanel from './components/ResultsPanel';
 import { defaultInputs } from './utils/constants';
@@ -12,6 +12,9 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const lastMcInputsRef = useRef(null);
+  const lastMcResultRef = useRef(null);
+
   const calculate = useCallback((currentInputs) => {
     setLoading(true);
     setError(null);
@@ -20,7 +23,22 @@ function App() {
       setTimeout(() => {
         try {
           const detResult = calculateDeterministic(currentInputs);
-          const mcResult = currentInputs.enable_monte_carlo ? calculateMonteCarlo(currentInputs) : null;
+          
+          let mcResult = null;
+          if (currentInputs.enable_monte_carlo) {
+            // Ignore success_cutoff for MC recalculation trigger
+            const currentMcConfig = { ...currentInputs };
+            delete currentMcConfig.success_cutoff;
+            const configStr = JSON.stringify(currentMcConfig);
+            
+            if (lastMcInputsRef.current === configStr && lastMcResultRef.current) {
+              mcResult = lastMcResultRef.current;
+            } else {
+              mcResult = calculateMonteCarlo(currentInputs);
+              lastMcInputsRef.current = configStr;
+              lastMcResultRef.current = mcResult;
+            }
+          }
           
           setResults({
             deterministic: detResult.deterministic,
