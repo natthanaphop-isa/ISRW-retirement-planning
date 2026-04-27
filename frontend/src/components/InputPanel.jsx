@@ -66,6 +66,41 @@ const InputPanel = ({ inputs, setInputs, lang, toggleLang }) => {
           <FormattedInput className="input-base text-gray-900"
             value={inputs.monthly_investment} onChange={(val) => update('monthly_investment', val)} />
         </div>
+        
+        <div className="space-y-4 pt-2 border-t border-gray-100">
+          <label className="flex items-center space-x-2">
+            <input type="checkbox" className="rounded text-primary focus:ring-primary"
+              checked={inputs.step_up_savings} onChange={(e) => update('step_up_savings', e.target.checked)} />
+            <span className="font-semibold text-gray-900 text-sm">{t.step_up_savings}</span>
+          </label>
+          
+          {inputs.step_up_savings && (
+            <div className="pl-6 space-y-4">
+              <div>
+                <label className="flex justify-between text-xs text-gray-800 mb-1">
+                  <span>{t.savings_growth_rate}</span>
+                  <span className="font-medium text-gray-900">{(inputs.savings_growth_rate * 100).toFixed(1)}%</span>
+                </label>
+                <input type="range" min="0" max="0.20" step="0.005" className="range-slider"
+                  value={inputs.savings_growth_rate} onChange={(e) => update('savings_growth_rate', parseFloat(e.target.value))} />
+              </div>
+              
+              <label className="flex items-center space-x-2">
+                <input type="checkbox" className="rounded text-primary focus:ring-primary"
+                  checked={inputs.has_max_savings} onChange={(e) => update('has_max_savings', e.target.checked)} />
+                <span className="font-medium text-gray-900 text-sm">{t.has_max_savings}</span>
+              </label>
+              
+              {inputs.has_max_savings && (
+                <div>
+                  <label className="block text-xs text-gray-800 mb-1">{t.max_monthly_investment}</label>
+                  <FormattedInput className="input-base text-gray-900"
+                    value={inputs.max_monthly_investment} onChange={(val) => update('max_monthly_investment', val)} />
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
 
       <hr className="border-gray-200" />

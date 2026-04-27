@@ -5,6 +5,10 @@ export const defaultInputs = {
   
   initial_capital: 100000,
   monthly_investment: 20000,
+  step_up_savings: false,
+  savings_growth_rate: 0.05,
+  has_max_savings: false,
+  max_monthly_investment: 50000,
   
   monthly_need: 30000,
   monthly_want: 10000,

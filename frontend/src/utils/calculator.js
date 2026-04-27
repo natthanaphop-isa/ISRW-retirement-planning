@@ -38,7 +38,16 @@ export function calculateDeterministic(req) {
           }
       }
       
-      portfolio = portfolio * (1 + monthly_ret) + req.monthly_investment + net_passive_income;
+      let current_monthly_inv = req.monthly_investment;
+      if (req.step_up_savings) {
+          const years_elapsed = Math.floor(m / 12);
+          current_monthly_inv = req.monthly_investment * Math.pow(1 + req.savings_growth_rate, years_elapsed);
+          if (req.has_max_savings && current_monthly_inv > req.max_monthly_investment) {
+              current_monthly_inv = req.max_monthly_investment;
+          }
+      }
+      
+      portfolio = portfolio * (1 + monthly_ret) + current_monthly_inv + net_passive_income;
       
       if (m % 12 === 11 || m === months_accum - 1) {
           yearly_data.push({

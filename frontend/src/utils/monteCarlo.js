@@ -98,8 +98,16 @@ export function calculateMonteCarlo(req) {
       
       const expense_monthly = (req.monthly_need + req.monthly_want) * cum_inf;
       
+      let current_monthly_inv = req.monthly_investment;
+      if (req.step_up_savings) {
+          current_monthly_inv = req.monthly_investment * Math.pow(1 + req.savings_growth_rate, y);
+          if (req.has_max_savings && current_monthly_inv > req.max_monthly_investment) {
+              current_monthly_inv = req.max_monthly_investment;
+          }
+      }
+      
       if (is_accum) {
-        portfolio = portfolio * (1 + r_monthly) + req.monthly_investment + total_passive_income;
+        portfolio = portfolio * (1 + r_monthly) + current_monthly_inv + total_passive_income;
       } else {
         if (m === months_accum) {
           if (req.include_health_costs) portfolio -= (req.health_insurance_lump_sum + req.health_other_lump_sum);

@@ -127,6 +127,16 @@ const PassiveIncomePanel = ({ inputs, update, lang, t }) => {
                   </div>
                 </div>
 
+                {asset.include_asset_value_in_estate && (
+                  <div className="mt-2 pt-2 border-t border-gray-100">
+                    <label className="flex justify-between text-[10px] text-gray-600 mb-1">
+                      <span>{t.asset_growth}</span>
+                      <span className="font-medium">{(asset.asset_value_growth_rate * 100).toFixed(1)}%</span>
+                    </label>
+                    <input type="range" min="-0.05" max="0.15" step="0.005" className="range-slider" value={asset.asset_value_growth_rate} onChange={(e) => updateAsset(idx, 'asset_value_growth_rate', parseFloat(e.target.value))} />
+                  </div>
+                )}
+
               </div>
             </div>
           ))}
