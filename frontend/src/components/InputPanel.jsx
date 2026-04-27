@@ -222,9 +222,53 @@ const InputPanel = ({ inputs, setInputs, lang, toggleLang }) => {
                   <span>{t.sigma_accum}</span>
                   <span className="font-medium text-gray-900">{(inputs.sigma_accum * 100).toFixed(1)}%</span>
                 </label>
-                <input type="range" min="0" max="0.30" step="0.01" className="range-slider"
+                <input type="range" min="0" max="0.30" step="0.005" className="range-slider"
                   value={inputs.sigma_accum} onChange={(e) => update('sigma_accum', parseFloat(e.target.value))} />
               </div>
+              <div>
+                <label className="flex justify-between text-xs text-gray-800 mb-1">
+                  <span>{t.sigma_near}</span>
+                  <span className="font-medium text-gray-900">{(inputs.sigma_near * 100).toFixed(1)}%</span>
+                </label>
+                <input type="range" min="0" max="0.30" step="0.005" className="range-slider"
+                  value={inputs.sigma_near} onChange={(e) => update('sigma_near', parseFloat(e.target.value))} />
+              </div>
+              <div>
+                <label className="flex justify-between text-xs text-gray-800 mb-1">
+                  <span>{t.sigma_post}</span>
+                  <span className="font-medium text-gray-900">{(inputs.sigma_post * 100).toFixed(1)}%</span>
+                </label>
+                <input type="range" min="0" max="0.30" step="0.005" className="range-slider"
+                  value={inputs.sigma_post} onChange={(e) => update('sigma_post', parseFloat(e.target.value))} />
+              </div>
+              <div>
+                <label className="flex justify-between text-xs text-gray-800 mb-1">
+                  <span>{t.sigma_inflation}</span>
+                  <span className="font-medium text-gray-900">{(inputs.sigma_inflation * 100).toFixed(1)}%</span>
+                </label>
+                <input type="range" min="0" max="0.10" step="0.005" className="range-slider"
+                  value={inputs.sigma_inflation} onChange={(e) => update('sigma_inflation', parseFloat(e.target.value))} />
+              </div>
+              {inputs.include_passive_income && (
+                <>
+                  <div>
+                    <label className="flex justify-between text-xs text-gray-800 mb-1">
+                      <span>{t.sigma_income_growth}</span>
+                      <span className="font-medium text-gray-900">{(inputs.sigma_income_growth * 100).toFixed(1)}%</span>
+                    </label>
+                    <input type="range" min="0" max="0.10" step="0.005" className="range-slider"
+                      value={inputs.sigma_income_growth} onChange={(e) => update('sigma_income_growth', parseFloat(e.target.value))} />
+                  </div>
+                  <div>
+                    <label className="flex justify-between text-xs text-gray-800 mb-1">
+                      <span>{t.sigma_asset_growth}</span>
+                      <span className="font-medium text-gray-900">{(inputs.sigma_asset_value_growth * 100).toFixed(1)}%</span>
+                    </label>
+                    <input type="range" min="0" max="0.20" step="0.005" className="range-slider"
+                      value={inputs.sigma_asset_value_growth} onChange={(e) => update('sigma_asset_value_growth', parseFloat(e.target.value))} />
+                  </div>
+                </>
+              )}
             </div>
           </details>
         )}

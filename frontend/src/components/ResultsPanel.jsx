@@ -148,6 +148,9 @@ const ResultsPanel = ({ inputs, results, loading, error, lang }) => {
                    return [formatTHB(value), n];
                 }}
                 labelFormatter={(label) => `${t.age}: ${label}`}
+                contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.85)', borderRadius: '8px', fontSize: '12px', padding: '8px', border: '1px solid #f3f4f6', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+                itemStyle={{ padding: 0, margin: '2px 0' }}
+                labelStyle={{ fontWeight: 'bold', marginBottom: '4px', color: '#374151' }}
               />
               <Legend wrapperStyle={{ paddingTop: '10px' }} />
               
