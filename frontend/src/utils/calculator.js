@@ -70,7 +70,8 @@ export function calculateDeterministic(req) {
   
   for (let m = 0; m < months_retire; m++) {
       const current_month_age = retirement_age + m / 12.0;
-      const inflation_factor = Math.pow(1 + req.inflation_rate, m / 12.0);
+      const years_from_today = (retirement_age - current_age) + (m / 12.0);
+      const inflation_factor = Math.pow(1 + req.inflation_rate, years_from_today);
       
       const total_monthly_expenses = (req.monthly_need + req.monthly_want) * inflation_factor;
       cumulative_expenses += total_monthly_expenses;

@@ -95,11 +95,11 @@ const PassiveIncomePanel = ({ inputs, update, lang, t }) => {
                 <div className="grid grid-cols-2 gap-2">
                   <div>
                     <label className="block text-xs text-gray-600 mb-1">Start Age</label>
-                    <input type="number" min={inputs.current_age} max={inputs.life_expectancy} className="input-base text-xs py-1" value={asset.income_start_age} onChange={(e) => updateAsset(idx, 'income_start_age', parseInt(e.target.value) || inputs.current_age)} />
+                    <FormattedInput className="input-base text-xs py-1" value={asset.income_start_age} onChange={(val) => updateAsset(idx, 'income_start_age', val)} />
                   </div>
                   <div>
                     <label className="block text-xs text-gray-600 mb-1">End Age</label>
-                    <input type="number" min={asset.income_start_age} max={inputs.life_expectancy} className="input-base text-xs py-1" value={asset.income_end_age} onChange={(e) => updateAsset(idx, 'income_end_age', parseInt(e.target.value) || inputs.life_expectancy)} />
+                    <FormattedInput className="input-base text-xs py-1" value={asset.income_end_age} onChange={(val) => updateAsset(idx, 'income_end_age', val)} />
                   </div>
                 </div>
 

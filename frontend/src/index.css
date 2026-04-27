@@ -5,12 +5,12 @@
   --color-primary: #16a34a;
   --color-primary-light: #4ade80;
   --color-primary-dark: #15803d;
-  --color-success: #16a34a;
-  --color-success-bg: #f0fdf4;
-  --color-warning: #eab308;
-  --color-warning-bg: #fef9c3;
-  --color-danger: #ef4444;
-  --color-danger-bg: #fef2f2;
+  --color-success: #2D6A4F;
+  --color-success-bg: #EAF4F0;
+  --color-warning: #B45309;
+  --color-warning-bg: #FDF3E7;
+  --color-danger: #BC4749;
+  --color-danger-bg: #F9EBEB;
 }
 
 @layer base {
@@ -62,7 +62,7 @@
     border-radius: 0.5rem;
     appearance: none;
     cursor: pointer;
-    accent-color: var(--color-primary);
+    accent-color: #2D6A4F;
     transition: opacity 0.2s;
   }
   .range-slider:hover {
